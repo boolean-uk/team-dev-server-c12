@@ -2,26 +2,12 @@
 
 ## Setting up
 
-### Pre-requisite
-
-[Follow this guide to create your databases](./DB_SETUP.md)
-
-Once you have complete the above guide, continue to the steps below.
-
-1. Copy `.env.example` and name it `.env` (NOTE: Make sure to copy the file, don't remove the original)
-2. Copy the URL of your **PRIMARY** database instance (see image below on how to get this) and place it into the `.env` file's `DATABASE_URL` variable, keeping `?schema=prisma` on the end. E.g. `DATABASE_URL="postgres://uy:ay@ka.db.elephantsql.com/ufy?schema=prisma"`
-   ![](./assets/db-setup/4.PNG)
-3. Do the same thing for your **SHADOW** database, placing its URL into the `SHADOW_DATABASE_URL` variable, keeping `?schema=shadow` on the end. E.g. `SHADOW_DATABASE_URL="postgres://jk:la@ka.db.elephantsql.com/irk?schema=shadow"`
-4. `npm ci` to install dependencies
-5. `npx prisma migrate reset` to build the database tables and insert some seed data (as defined in [./prisma/seed.js](./prisma/seed.js))
-6. `npm run dev` to run the app
-
 ## API Spec
 
 [TODO]: <Deploy and update the link below>
 [Deployed API Spec](https://UPDATEME)
 
-The API Spec is hosted by the server itself (i.e. this project), and the view/page is generated automatically by the SwaggerUI libraryi.
+The API Spec is hosted by the server itself (i.e. this project), and the view/page is generated automatically by the SwaggerUI library.
 
 To view it locally, you can just go to: [http://localhost:4000/api-docs](http://localhost:4000/api-docs).
 

@@ -5,7 +5,7 @@ info:
   version: 1.0
 
 servers:
-  - url: http://localhost:4000/
+  - url: https://team-dev-backend-api-nameless-cherry-5503.fly.dev/
 tags:
   - name: user
   - name: post
@@ -69,7 +69,7 @@ paths:
     post:
       tags:
         - user
-      summary: Localhost Login
+      summary: Login
       description: ''
       operationId: loginUser
       requestBody:
