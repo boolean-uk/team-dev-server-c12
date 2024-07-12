@@ -9,6 +9,11 @@
 5. `npm run dev` to run the app
 6. Profit
 
+## Contributing
+
+- Project management board: https://github.com/orgs/boolean-uk/projects/13/views/1
+- Pull requests MUST be made from branches following the naming convention: `<username>-<issue_number>-<feature>`, e.g. `vherus-#1-user_registration`
+
 ## API Spec
 
 [Deployed API Spec](https://boolean-uk.github.io/team-dev-server-c12/)
