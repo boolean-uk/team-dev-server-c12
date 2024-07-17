@@ -7,9 +7,9 @@ import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 export const login = async (req, res) => {
   const { email, password } = req.body
 
-  if (!email) {
+  if (!email || !password) {
     return sendDataResponse(res, 400, {
-      email: 'Invalid email and/or password provided'
+      error: 'Enter your email and password!'
     })
   }
 
@@ -19,7 +19,7 @@ export const login = async (req, res) => {
 
     if (!areCredentialsValid) {
       return sendDataResponse(res, 400, {
-        email: 'Invalid email and/or password provided'
+        error: 'Invalid email and/or password provided'
       })
     }
 
@@ -36,11 +36,7 @@ function generateJwt(userId) {
 }
 
 async function validateCredentials(password, user) {
-  if (!user) {
-    return false
-  }
-
-  if (!password) {
+  if (!user || !password) {
     return false
   }
 
