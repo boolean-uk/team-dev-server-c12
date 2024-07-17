@@ -1,21 +1,20 @@
 import { emailRegex, passwordRegex } from './regexMatchers.js'
+import ERR from './errors.js'
 
 export function register(email, password) {
   if (!email) {
-    throw Error('Email is required')
+    throw Error(ERR.EMAIL_REQUIRED)
   }
 
   if (!password) {
-    throw Error('Password is required')
+    throw Error(ERR.PASSWORD_REQUIRED)
   }
 
   if (!email.match(emailRegex)) {
-    throw Error('Email format invalid')
+    throw Error(ERR.EMAIL_FORMATING)
   }
 
   if (!password.match(passwordRegex)) {
-    throw Error(
-      'Password must contain at least one upper case character, at least one number, at least one special character and not be less than 8 characters in length.'
-    )
+    throw Error(ERR.PASSWORD_REQUIREMENTS)
   }
 }
