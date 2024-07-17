@@ -1,7 +1,5 @@
 import { getAllPostsDb, getPostByIdDb } from '../domain/post.js'
 import { sendDataResponse } from '../utils/responses.js'
-import dbClient from '../utils/dbClient.js'
-import User from '../domain/user.js'
 
 export const create = async (req, res) => {
   const { content } = req.body
