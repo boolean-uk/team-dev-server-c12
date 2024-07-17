@@ -25,4 +25,8 @@ export const getAll = async (req, res) => {
       }
     ]
   })
+  // const allPosts = await getAllPostsDb()
+
+  res.status(200).json()
+
 }

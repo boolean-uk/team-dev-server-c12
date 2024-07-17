@@ -25,3 +25,12 @@ export class Cohort {
     }
   }
 }
+
+export const getCohortById = async (cohortId) => {
+  const allCohorts = dbClient.cohort.findFirst({
+    where: {
+      id: cohortId
+    }
+  })
+  return allCohorts
+}
