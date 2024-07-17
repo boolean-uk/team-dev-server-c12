@@ -1,14 +1,34 @@
 import User from '../domain/user.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
+import { emailRegex, passwordRegex } from '../utils/regexLib.js'
 
 export const create = async (req, res) => {
+  if (!req.body.email) {
+    return sendDataResponse(res, 400, { email: 'Email is required' })
+  }
+
+  if (!req.body.email.match(emailRegex)) {
+    return sendDataResponse(res, 400, { email: 'Email format invalid' })
+  }
+
+  if (!req.body.password) {
+    return sendDataResponse(res, 400, { email: 'Password is required' })
+  }
+
+  if (!req.body.password.match(passwordRegex)) {
+    return sendDataResponse(res, 400, {
+      email:
+        'Password must contain at least one upper case character, at least one number, at least one special character and not be less than 8 characters in length.'
+    })
+  }
+
   const userToCreate = await User.fromJson(req.body)
 
   try {
     const existingUser = await User.findByEmail(userToCreate.email)
 
     if (existingUser) {
-      return sendDataResponse(res, 400, { email: 'Email already in use' })
+      return sendDataResponse(res, 409, { email: 'Email already in use' })
     }
 
     const createdUser = await userToCreate.save()
