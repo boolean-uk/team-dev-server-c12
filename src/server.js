@@ -9,10 +9,12 @@ import postRouter from './routes/post.js'
 import authRouter from './routes/auth.js'
 import cohortRouter from './routes/cohort.js'
 import deliveryLogRouter from './routes/deliveryLog.js'
+import morgan from 'morgan'
 
 const app = express()
 app.disable('x-powered-by')
 app.use(cors())
+app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 

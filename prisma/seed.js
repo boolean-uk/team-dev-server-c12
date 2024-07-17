@@ -4,7 +4,6 @@ const prisma = new PrismaClient();
 
 async function seed() {
     const cohort = await createCohort()
-
     const student = await createUser('student@test.com', 'Testpassword1!', cohort.id, 'Joe', 'Bloggs', 'Hello, world!', 'student1')
     const teacher = await createUser('teacher@test.com', 'Testpassword1!', null, 'Rick', 'Sanchez', 'Hello there!', 'teacher1', 'TEACHER')
 

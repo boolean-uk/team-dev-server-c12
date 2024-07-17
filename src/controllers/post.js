@@ -16,12 +16,12 @@ export const getAll = async (req, res) => {
       {
         id: 1,
         content: 'Hello world!',
-        author: { ...req.user }
+        author: { ...req.user, firstName: 'Tony', lastName: 'Toneson' }
       },
       {
         id: 2,
         content: 'Hello from the void!',
-        author: { ...req.user }
+        author: { ...req.user, firstName: 'Maximus', lastName: 'Jonson' }
       }
     ]
   })

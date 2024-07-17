@@ -59,6 +59,7 @@ export const getAll = async (req, res) => {
 export const updateById = async (req, res) => {
   const { cohort_id: cohortId } = req.body
 
+
   if (!cohortId) {
     return sendDataResponse(res, 400, { cohort_id: 'Cohort ID is required' })
   }
