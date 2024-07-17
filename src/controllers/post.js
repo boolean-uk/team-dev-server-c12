@@ -15,18 +15,22 @@ export const getAll = async (req, res) => {
   const getPosts = await getAllPostsDb()
   const posts = getPosts.map((post) => {
     const { user } = post
-    if (user && user.profile) {
-      return {
-        id: post.id,
-        content: post.content,
-        author: {
-          cohortId: user.cohortId,
-          role: user.role,
-          ...user.profile
-        }
+    if (!user.profile) {
+      return post
+    }
+    return {
+      id: post.id,
+      content: post.content,
+      author: {
+        id: user.profile.id,
+        cohortId: user.cohortId,
+        role: user.role,
+        firstName: user.profile.firstName,
+        lastName: user.profile.lastName,
+        bio: user.profile.bio,
+        githubUrl: user.profile.githubUrl
       }
     }
-    return post
   })
   return sendDataResponse(res, 200, { posts: posts })
 }
