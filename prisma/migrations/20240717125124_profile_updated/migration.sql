@@ -1,9 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the column `githubUrl` on the `Profile` table. All the data in the column will be lost.
-
-*/
 -- AlterTable
 ALTER TABLE "Profile" RENAME COLUMN "githubUrl" TO "githubUsername";
 
