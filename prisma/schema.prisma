@@ -44,10 +44,10 @@ model Cohort {
 }
 
 model Post {
-  id        Int           @id @default(autoincrement())
+  id        Int          @id @default(autoincrement())
   content   String
   userId    Int
-  user      User          @relation(fields: [userId], references: [id])
+  user      User         @relation(fields: [userId], references: [id])
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
 }
