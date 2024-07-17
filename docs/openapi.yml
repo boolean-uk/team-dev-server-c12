@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Team Dev Server API
   description: |-
-  version: 1.0
+  version: '1.0'
 
 servers:
   - url: https://team-dev-backend-api-nameless-cherry-5503.fly.dev/
