@@ -37,9 +37,9 @@ export const getPostByID = async (req, res) => {
   const found = await getPostByIdDb(postId)
 
   if (!found) {
-    return sendDataResponse(res, 401, {error: "Post not found by that Id"})
+    return sendDataResponse(res, 401, { error: 'Post not found by that Id' })
   }
-  const {id, content} = found
+  const { id, content } = found
 
-  return sendDataResponse(res, 200, {post: {id, content}})
+  return sendDataResponse(res, 200, { post: { id, content } })
 }
