@@ -93,7 +93,11 @@ paths:
                 $ref: '#/components/schemas/loginRes'
 
         '400':
-          description: Invalid email/password supplied
+          description: fail
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /users/{id}:
     get:
