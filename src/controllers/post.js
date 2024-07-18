@@ -1,5 +1,6 @@
 import { getAllPostsDb, getPostByIdDb } from '../domain/post.js'
 import { sendDataResponse } from '../utils/responses.js'
+import errors from '../utils/errors.js'
 
 export const create = async (req, res) => {
   const { content } = req.body
@@ -41,7 +42,7 @@ export const getPostByID = async (req, res) => {
   const found = await getPostByIdDb(postId)
 
   if (!found) {
-    return sendDataResponse(res, 401, { error: 'Post not found by that Id' })
+    return sendDataResponse(res, 401, { error: errors.POST_NOT_FOUND })
   }
   const { id, content } = found
 

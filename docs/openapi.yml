@@ -233,23 +233,29 @@ paths:
         - bearerAuth: []
       parameters:
         - name: id
-        in: path
-        description: 'The post that needs to be fetched. Use 1 for testing. '
-        required: true
-        schema type: int
+          in: path
+          description: ' '
+          required: true
+          schema:
+            type: int
       responses:
         '200':
-          description: Successful operation
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Posts'
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Posts'
         '401':
           description: fail
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/Error'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /logs:
     post:
       tags:
