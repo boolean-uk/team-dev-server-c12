@@ -16,7 +16,7 @@
 
 ## API Spec
 
-[Deployed API Spec](https://boolean-uk.github.io/team-dev-server-c12/)
+[Deployed API Spec](https://team-dev-backend-api-nameless-cherry-5503.fly.dev/api-docs/)
 
 The API Spec is hosted by the server itself (i.e. this project), and the view/page is generated automatically by the SwaggerUI library.
 
