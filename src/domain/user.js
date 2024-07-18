@@ -98,16 +98,15 @@ export default class User {
       }
     }
 
-    if (this.firstName && this.lastName) {
-      data.profile = {
-        create: {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          bio: this.bio,
-          githubUrl: this.githubUrl
-        }
+    data.profile = {
+      create: {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        bio: this.bio,
+        githubUrl: this.githubUrl
       }
     }
+
     const createdUser = await dbClient.user.create({
       data,
       include: {
