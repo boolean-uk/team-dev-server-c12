@@ -3,15 +3,10 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { JWT_EXPIRY, JWT_SECRET } from '../utils/config.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
+import ERR from '../utils/errors.js'
 
 export const login = async (req, res) => {
   const { email, password } = req.body
-
-  if (!email) {
-    return sendDataResponse(res, 400, {
-      email: 'Invalid email and/or password provided'
-    })
-  }
 
   try {
     const foundUser = await User.findByEmail(email)
@@ -19,7 +14,7 @@ export const login = async (req, res) => {
 
     if (!areCredentialsValid) {
       return sendDataResponse(res, 400, {
-        email: 'Invalid email and/or password provided'
+        error: ERR.EMAIL_PASS_INVALID
       })
     }
 
