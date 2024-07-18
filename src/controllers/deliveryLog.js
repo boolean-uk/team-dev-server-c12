@@ -1,22 +1,21 @@
 import { getCohortById } from '../domain/cohort.js'
 import { createDeliveryLogDb } from '../domain/deliveryLog.js'
 import { sendDataResponse } from '../utils/responses.js'
+import ERR from '../utils/errors.js'
 
 export const createDeliveryLog = async (req, res) => {
   const { cohort_id: cohortId, lines } = req.body
 
-  if (!cohortId || !lines) {
-    throw new Error(
-      'Cohort id and Line must be provided in order to create a Delivery log'
-    )
-  }
-
   try {
-    const existing = await getCohortById(cohortId)
-
-    if (!existing) {
-      throw new Error('No cohort with the provided id exists')
+    if (!cohortId || !lines) {
+      throw Error(ERR.INCOMPLETE_REQUEST)
     }
+
+    const existing = await getCohortById(cohortId)
+    if (!existing) {
+      throw Error(ERR.COHORT_NOT_FOUND)
+    }
+
     const log = await createDeliveryLogDb(cohortId, req.user.id, lines)
 
     return sendDataResponse(res, 201, {
@@ -38,9 +37,21 @@ export const createDeliveryLog = async (req, res) => {
     })
   } catch (error) {
     console.error(error)
-    return res.status(500).json({
-      status: 'error',
-      message: 'An error occurred while creating the delivery log.'
-    })
+    if (error.message === ERR.INCOMPLETE_REQUEST) {
+      return res.status(400).json({
+        status: 'error',
+        data: error.message
+      })
+    } else if (error.message === ERR.COHORT_NOT_FOUND) {
+      return res.status(404).json({
+        status: 'error',
+        data: error.message
+      })
+    } else {
+      return res.status(500).json({
+        status: 'error',
+        message: 'An error occurred while creating the delivery log.'
+      })
+    }
   }
 }
