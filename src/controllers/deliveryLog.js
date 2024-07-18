@@ -23,6 +23,7 @@ export const createDeliveryLog = async (req, res) => {
         log: {
           id: log.id,
           cohortId: cohortId,
+          date: log.date,
           author: {
             id: log.user.id,
             firstName: req.user.firstName,
