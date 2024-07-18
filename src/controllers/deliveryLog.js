@@ -5,14 +5,15 @@ import ERR from '../utils/errors.js'
 
 export const createDeliveryLog = async (req, res) => {
   const { cohort_id: cohortId, lines } = req.body
+  const { firstName, lastName } = req.user
 
   try {
     if (!cohortId || !lines) {
       throw Error(ERR.INCOMPLETE_REQUEST)
     }
 
-    const existing = await getCohortById(cohortId)
-    if (!existing) {
+    const cohortExists = await getCohortById(cohortId)
+    if (!cohortExists) {
       throw Error(ERR.COHORT_NOT_FOUND)
     }
 
@@ -26,8 +27,8 @@ export const createDeliveryLog = async (req, res) => {
           date: log.date,
           author: {
             id: log.user.id,
-            firstName: req.user.firstName,
-            lastName: req.user.lastName
+            firstName,
+            lastName
           },
           lines: log.lines.map((line) => ({
             id: line.id,
@@ -51,7 +52,7 @@ export const createDeliveryLog = async (req, res) => {
     } else {
       return res.status(500).json({
         status: 'error',
-        message: 'An error occurred while creating the delivery log.'
+        data: ERR.DELIVERY_LOG_GENERIC_ERROR
       })
     }
   }
