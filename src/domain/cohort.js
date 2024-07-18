@@ -8,9 +8,7 @@ export async function createCohort(startDate, endDate) {
   const createdCohort = await dbClient.cohort.create({
     data: {
       startDate,
-      endDate,
-      users: {},
-      deliveryLogs: {}
+      endDate
     },
     include: {
       users: true,
