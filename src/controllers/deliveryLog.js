@@ -14,15 +14,14 @@ export const createDeliveryLog = async (req, res) => {
     })
   }
 
-  const cohortExists = await getCohortById(cohortId)
-  if (!cohortExists) {
-    return res.status(404).json({
-      status: 'error',
-      data: ERR.COHORT_NOT_FOUND
-    })
-  }
-
   try {
+    const cohortExists = await getCohortById(cohortId)
+    if (!cohortExists) {
+      return res.status(404).json({
+        status: 'error',
+        data: ERR.COHORT_NOT_FOUND
+      })
+    }
     const log = await createDeliveryLogDb(cohortId, req.user.id, lines)
 
     const logLines = log.lines.map((line) => ({
@@ -46,7 +45,7 @@ export const createDeliveryLog = async (req, res) => {
       }
     })
   } catch (error) {
-    console.error(error)
+    console.error('An error occurred while creating the delivery log', error)
     return res.status(500).json({
       status: 'error',
       data: ERR.DELIVERY_LOG_GENERIC_ERROR
