@@ -263,14 +263,14 @@ paths:
   /logs:
     post:
       tags:
-        - log
+        - logs
       summary: Create delivery log
-      description: This can only be done by an authorised teacher user.
-      operationId: createLog
+      description: Create comment-lines for delivery
+      operationId: createDeliveryLog
       security:
         - bearerAuth: []
       requestBody:
-        description: Created log object
+        description: Create log object
         content:
           application/json:
             schema:
@@ -294,8 +294,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Log'
-        '401':
+        400:
+          description: Fail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        401:
           description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Fail
           content:
             application/json:
               schema:
