@@ -265,7 +265,7 @@ paths:
       tags:
         - logs
       summary: Create delivery log
-      description: Create comment-lines for delivery
+      description: This can only be done by an authorised user with role of TEACHER
       operationId: createDeliveryLog
       security:
         - bearerAuth: []
