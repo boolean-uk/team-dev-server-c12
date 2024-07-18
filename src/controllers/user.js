@@ -1,4 +1,5 @@
 import User from '../domain/user.js'
+import errors from '../utils/errors.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import * as validation from '../utils/validationFunctions.js'
 
@@ -65,10 +66,27 @@ export const getAll = async (req, res) => {
 
 export const updateById = async (req, res) => {
   const { cohort_id: cohortId } = req.body
+  const paramsId = Number(req.params.id)
+  const { id, role } = req.user
+  const foundUser = await User.findById(paramsId)
+  let updatedUser
 
   if (!cohortId) {
     return sendDataResponse(res, 400, { cohort_id: 'Cohort ID is required' })
   }
-
-  return sendDataResponse(res, 201, { user: { cohort_id: cohortId } })
+  if (!foundUser) {
+    return sendDataResponse(res, 401, { error: errors.USER_NOT_FOUND })
+  }
+  const isTeacher = role === 'TEACHER'
+  const isUser = id === paramsId
+  if (!isUser && !isTeacher) {
+    return sendDataResponse(res, 403, { error: errors.REQUEST_FORBIDDEN })
+  }
+  if (role === 'TEACHER') {
+    updatedUser = await User._updateUser(id, req.body)
+    return sendDataResponse(res, 201, { user: updatedUser })
+  }
+  updatedUser = await User._updateUser(id, req.body)
+  return sendDataResponse(res, 201, { user: updatedUser })
+  // return sendDataResponse(res, 201, { user: { cohort_id: cohortId } })
 }
