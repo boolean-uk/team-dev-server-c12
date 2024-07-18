@@ -74,7 +74,7 @@ function validateTokenType(type) {
   return true
 }
 
-export async function validateCanPatch(req, res, next) {
+export async function validateCanUpdateUserDetails(req, res, next) {
   const propsToUpdate = req.body
   const targetUserId = Number(req.params.id)
   const loggedInUser = req.user

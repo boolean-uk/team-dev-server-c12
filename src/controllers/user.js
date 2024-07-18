@@ -75,18 +75,17 @@ export const updateById = async (req, res) => {
     return sendDataResponse(res, 400, { cohort_id: 'Cohort ID is required' })
   }
   if (!foundUser) {
-    return sendDataResponse(res, 401, { error: errors.USER_NOT_FOUND })
+    return sendDataResponse(res, 404, { error: errors.USER_NOT_FOUND })
   }
   const isTeacher = role === 'TEACHER'
   const isUser = id === paramsId
   if (!isUser && !isTeacher) {
     return sendDataResponse(res, 403, { error: errors.REQUEST_FORBIDDEN })
   }
-  if (role === 'TEACHER') {
+  if (isTeacher) {
     updatedUser = await User._updateUser(id, req.body)
-    return sendDataResponse(res, 201, { user: updatedUser })
+    return sendDataResponse(res, 200, { user: updatedUser })
   }
   updatedUser = await User._updateUser(id, req.body)
-  return sendDataResponse(res, 201, { user: updatedUser })
-  // return sendDataResponse(res, 201, { user: { cohort_id: cohortId } })
+  return sendDataResponse(res, 200, { user: updatedUser })
 }
