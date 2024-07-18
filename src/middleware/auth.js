@@ -2,7 +2,6 @@ import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import { JWT_SECRET } from '../utils/config.js'
 import jwt from 'jsonwebtoken'
 import User from '../domain/user.js'
-import ERR from '../utils/errors.js'
 
 export async function validateTeacherRole(req, res, next) {
   if (!req.user) {
@@ -70,24 +69,5 @@ function validateTokenType(type) {
   if (type.toUpperCase() !== 'BEARER') {
     return false
   }
-
   return true
-}
-
-export async function validateCanUpdateUserDetails(req, res, next) {
-  const propsToUpdate = req.body
-  const targetUserId = Number(req.params.id)
-  const loggedInUser = req.user
-
-  if (targetUserId === loggedInUser.id) {
-    return next()
-  }
-
-  if (!propsToUpdate.password && loggedInUser.role === 'TEACHER') {
-    return next()
-  }
-
-  return sendDataResponse(res, 403, {
-    error: ERR.NOT_AUTHORISED
-  })
 }
