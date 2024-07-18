@@ -76,6 +76,10 @@ export const updateById = async (req, res) => {
   if (!foundUser) {
     return sendDataResponse(res, 404, { error: errors.USER_NOT_FOUND })
   }
+  const canPatch = validation.validateCanPatch(req)
+  if (!canPatch) {
+    return sendDataResponse(res, 403, { error: errors.NOT_AUTHORISED })
+  }
   const updatedUser = await User._updateUser(id, req.body)
   return sendDataResponse(res, 200, { user: updatedUser })
 }
