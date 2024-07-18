@@ -64,7 +64,7 @@ async function createUser(
   firstName,
   lastName,
   bio,
-  githubUrl,
+  githubUsername,
   role = 'STUDENT'
 ) {
   const user = await prisma.user.create({
@@ -78,7 +78,7 @@ async function createUser(
           firstName,
           lastName,
           bio,
-          githubUrl
+          githubUsername
         }
       }
     },

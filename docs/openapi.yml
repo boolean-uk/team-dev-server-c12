@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Team Dev Server API
   description: |-
-  version: 1.0
+  version: '1.0'
 
 servers:
   - url: https://team-dev-backend-api-nameless-cherry-5503.fly.dev/
@@ -355,7 +355,11 @@ components:
           type: string
         bio:
           type: string
-        githubUrl:
+        githubUsername:
+          type: string
+        username: 
+          type: string
+        mobile:
           type: string
 
     CreateUser:
@@ -369,9 +373,13 @@ components:
           type: string
         bio:
           type: string
-        githubUrl:
+        githubUsername:
           type: string
         password:
+          type: string
+        username: 
+          type: string
+        mobile:
           type: string
 
     UpdateUser:
@@ -391,7 +399,11 @@ components:
           type: string
         bio:
           type: string
-        githubUrl:
+        githubUsername:
+          type: string
+        username: 
+          type: string
+        mobile:
           type: string
 
     Posts:
@@ -432,9 +444,13 @@ components:
                         type: string
                       bio:
                         type: string
-                      githubUrl:
+                      githubUsername:
                         type: string
                       profileImageUrl:
+                        type: string
+                      username: 
+                        type: string
+                      mobile:
                         type: string
     
     CreatedUser:
@@ -461,7 +477,11 @@ components:
                   type: string
                 bio:
                   type: string
-                githubUrl:
+                githubUsername:
+                  type: string
+                username: 
+                  type: string
+                mobile:
                   type: string
     login:
       type: object
@@ -496,7 +516,11 @@ components:
                   type: string
                 bio:
                   type: string
-                githubUrl:
+                githubUsername:
+                  type: string
+                username: 
+                  type: string
+                mobile:
                   type: string
     Error:
       type: object

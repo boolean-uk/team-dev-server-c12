@@ -28,13 +28,15 @@ model User {
 }
 
 model Profile {
-  id        Int     @id @default(autoincrement())
-  userId    Int     @unique
-  user      User    @relation(fields: [userId], references: [id])
-  firstName String
-  lastName  String
-  bio       String?
-  githubUrl String?
+  id             Int     @id @default(autoincrement())
+  userId         Int     @unique
+  user           User    @relation(fields: [userId], references: [id])
+  firstName      String?
+  lastName       String?
+  username       String?
+  mobile         String?
+  bio            String?
+  githubUsername String?
 }
 
 model Cohort {
@@ -49,7 +51,7 @@ model Post {
   userId    Int
   user      User      @relation(fields: [userId], references: [id])
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  updatedAt DateTime?  @updatedAt
 }
 
 model DeliveryLog {
