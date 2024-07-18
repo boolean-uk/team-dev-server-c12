@@ -226,6 +226,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /posts/{id}:
+    get:
+      tags:
+        - post
+      summary: Get post by ID
+      description: get post by id
+      operationId: getPost
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ' '
+          required: true
+          schema:
+            type: int
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  status:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Posts'
+        '401':
+          description: fail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /logs:
     post:
       tags:

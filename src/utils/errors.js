@@ -4,5 +4,9 @@ export default {
   EMAIL_FORMATING: 'Email format invalid',
   PASSWORD_REQUIREMENTS:
     'Password must contain at least one upper case character, at least one number, at least one special character and not be less than 8 characters in length.',
+<<<<<<< HEAD
   EMAIL_PASS_INVALID: 'The email or password is incorrect'
+=======
+  POST_NOT_FOUND: 'Post not found by that Id '
+>>>>>>> main
 }

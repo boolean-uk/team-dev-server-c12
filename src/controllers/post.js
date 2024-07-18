@@ -1,4 +1,6 @@
+import { getAllPostsDb, getPostByIdDb } from '../domain/post.js'
 import { sendDataResponse } from '../utils/responses.js'
+import errors from '../utils/errors.js'
 
 export const create = async (req, res) => {
   const { content } = req.body
@@ -11,18 +13,38 @@ export const create = async (req, res) => {
 }
 
 export const getAll = async (req, res) => {
-  return sendDataResponse(res, 200, {
-    posts: [
-      {
-        id: 1,
-        content: 'Hello world!',
-        author: { ...req.user, firstName: 'Test', lastName: 'McTesterson' }
-      },
-      {
-        id: 2,
-        content: 'Hello from the void!',
-        author: { ...req.user, firstName: 'Bobby', lastName: 'McTesterson' }
+  const getPosts = await getAllPostsDb()
+  const posts = getPosts.map((post) => {
+    const { user } = post
+    if (!user.profile) {
+      return post
+    }
+    return {
+      id: post.id,
+      content: post.content,
+      author: {
+        id: user.profile.id,
+        cohortId: user.cohortId,
+        role: user.role,
+        firstName: user.profile.firstName,
+        lastName: user.profile.lastName,
+        bio: user.profile.bio,
+        githubUrl: user.profile.githubUrl
       }
-    ]
+    }
   })
+  return sendDataResponse(res, 200, { posts: posts })
+}
+
+export const getPostByID = async (req, res) => {
+  const postId = Number(req.params.id)
+
+  const found = await getPostByIdDb(postId)
+
+  if (!found) {
+    return sendDataResponse(res, 401, { error: errors.POST_NOT_FOUND })
+  }
+  const { id, content } = found
+
+  return sendDataResponse(res, 200, { post: { id, content } })
 }
