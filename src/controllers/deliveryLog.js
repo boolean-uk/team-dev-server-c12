@@ -7,17 +7,28 @@ export const createDeliveryLog = async (req, res) => {
   const { cohort_id: cohortId, lines } = req.body
   const { firstName, lastName } = req.user
 
+  if (!cohortId || !lines) {
+    return res.status(400).json({
+      status: 'error',
+      data: ERR.INCOMPLETE_REQUEST
+    })
+  }
+
+  const cohortExists = await getCohortById(cohortId)
+  if (!cohortExists) {
+    return res.status(404).json({
+      status: 'error',
+      data: ERR.COHORT_NOT_FOUND
+    })
+  }
+
   try {
-    if (!cohortId || !lines) {
-      throw Error(ERR.INCOMPLETE_REQUEST)
-    }
-
-    const cohortExists = await getCohortById(cohortId)
-    if (!cohortExists) {
-      throw Error(ERR.COHORT_NOT_FOUND)
-    }
-
     const log = await createDeliveryLogDb(cohortId, req.user.id, lines)
+
+    const logLines = log.lines.map((line) => ({
+      id: line.id,
+      content: line.content
+    }))
 
     return sendDataResponse(res, 201, {
       data: {
@@ -30,30 +41,15 @@ export const createDeliveryLog = async (req, res) => {
             firstName,
             lastName
           },
-          lines: log.lines.map((line) => ({
-            id: line.id,
-            content: line.content
-          }))
+          lines: logLines
         }
       }
     })
   } catch (error) {
     console.error(error)
-    if (error.message === ERR.INCOMPLETE_REQUEST) {
-      return res.status(400).json({
-        status: 'error',
-        data: error.message
-      })
-    } else if (error.message === ERR.COHORT_NOT_FOUND) {
-      return res.status(404).json({
-        status: 'error',
-        data: error.message
-      })
-    } else {
-      return res.status(500).json({
-        status: 'error',
-        data: ERR.DELIVERY_LOG_GENERIC_ERROR
-      })
-    }
+    return res.status(500).json({
+      status: 'error',
+      data: ERR.DELIVERY_LOG_GENERIC_ERROR
+    })
   }
 }
