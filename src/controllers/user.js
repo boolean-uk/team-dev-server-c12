@@ -68,14 +68,10 @@ export const getAll = async (req, res) => {
 }
 
 export const updateById = async (req, res) => {
-  const { cohort_id: cohortId } = req.body
   const paramsId = Number(req.params.id)
   const { id } = req.user
   const foundUser = await User.findById(paramsId)
 
-  if (!cohortId) {
-    return sendDataResponse(res, 400, { cohort_id: 'Cohort ID is required' })
-  }
   if (!foundUser) {
     return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
   }
@@ -84,6 +80,9 @@ export const updateById = async (req, res) => {
     return sendDataResponse(res, 403, { error: ERR.NOT_AUTHORISED })
   }
   const updatedUser = await User.updateUser(id, req.body)
+
+  delete updatedUser.password
+
   return sendDataResponse(res, 200, { user: updatedUser })
 }
 
