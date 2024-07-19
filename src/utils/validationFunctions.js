@@ -18,3 +18,8 @@ export function register(email, password) {
     throw Error(ERR.PASSWORD_REQUIREMENTS)
   }
 }
+export function date(parsedStartDate, parsedEndDate) {
+  if (!parsedStartDate || !parsedEndDate) {
+    throw Error(ERR.DATE_FORMATTING)
+  }
+}

@@ -20,10 +20,8 @@ export async function createCohort(startDate, endDate) {
 }
 
 export class Cohort {
-  constructor(id = null, startDate, endDate) {
+  constructor(id = null) {
     this.id = id
-    this.startDate = startDate
-    this.endDate = endDate
   }
 
   toJSON() {
