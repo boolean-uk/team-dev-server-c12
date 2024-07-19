@@ -1,5 +1,7 @@
 import User from '../domain/user.js'
+import dbClient from '../utils/dbClient.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
+import { validateCanModify } from '../utils/validationFunctions.js'
 import * as validation from '../utils/validationFunctions.js'
 import ERR from '../utils/errors.js'
 
@@ -87,29 +89,31 @@ export const updateById = async (req, res) => {
 
 export const deleteUserById = async (req, res) => {
   const id = Number(req.params.id)
-  const user = req.user
-  if (!id) {
-    return res.status(400).json({
+  const canDelete = validateCanModify(req)
+
+  if (!canDelete) {
+    return res.status(401).json({
       status: 'error',
-      data: ERR.INCOMPLETE_REQUEST
+      data: ERR.REQUEST_FORBIDDEN
     })
   }
+
   try {
     const userToDelete = await User.findById(id)
-
-    if (userToDelete.id !== id || user.role !== 'TEACHER') {
-      return res.status(401).json({
-        status: 'error',
-        data: ERR.REQUEST_FORBIDDEN
-      })
-    }
 
     if (!userToDelete) {
       return sendDataResponse(res, 404, { id: 'User not found' })
     }
 
+    await dbClient.post.deleteMany({
+      where: { userId: id }
+    })
+    await dbClient.profile.delete({
+      where: { userId: id }
+    })
+
     const deletedUser = User.deleteUserByIdDb(userToDelete.id)
-    return sendDataResponse(res, 201, { deleted_user: deletedUser })
+    return sendDataResponse(res, 201, { deleted_user: userToDelete })
   } catch (error) {
     console.error('An error occurred while creating the delivery log', error)
     return res.status(500).json({
