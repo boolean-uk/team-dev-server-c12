@@ -91,7 +91,7 @@ export const deleteUserById = async (req, res) => {
   const canDelete = validateCanModify(req)
 
   if (isNaN(id)) {
-    return sendDataResponse(res, 400, ERR.BAD_REQUEST)
+    return sendDataResponse(res, 400, { error: ERR.BAD_REQUEST })
   }
 
   if (!canDelete) {
