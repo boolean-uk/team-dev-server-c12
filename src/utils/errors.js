@@ -10,5 +10,8 @@ export default {
   INCOMPLETE_REQUEST:
     'Cohort ID AND log-lines must be provided in order to create a delivery log',
   DELIVERY_LOG_GENERIC_ERROR:
-    'An error occurred while creating the delivery log.'
+    'An error occurred while creating the delivery log.',
+  DELETE_NOT_ALLOWED:
+    'You are not allowed to delete this user. Must be a teacher to delete an account other than your own',
+  DELETE_GENERIC_ERROR: 'An error occured while proccessing your request'
 }

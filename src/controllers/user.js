@@ -1,6 +1,7 @@
 import User from '../domain/user.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import * as validation from '../utils/validationFunctions.js'
+import ERR from '../utils/errors.js'
 
 export const create = async (req, res) => {
   try {
@@ -71,4 +72,35 @@ export const updateById = async (req, res) => {
   }
 
   return sendDataResponse(res, 201, { user: { cohort_id: cohortId } })
+}
+
+export const deleteUserById = async (req, res) => {
+  const id = Number(req.params.id)
+  const user = req.user
+  console.log(id)
+  console.log(typeof id)
+
+  try {
+    const userToDelete = await User.findById(id)
+
+    if (userToDelete.id !== id || user.role !== 'TEACHER') {
+      return res.status(401).json({
+        status: 'error',
+        data: ERR.DELETE_NOT_ALLOWED
+      })
+    }
+
+    if (!userToDelete) {
+      return sendDataResponse(res, 404, { id: 'User not found' })
+    }
+
+    const deletedUser = User.deleteUserByIdDb(userToDelete)
+    return sendDataResponse(res, 201, { deleted_user: deletedUser })
+  } catch (error) {
+    console.error('An error occurred while creating the delivery log', error)
+    return res.status(500).json({
+      status: 'error',
+      data: ERR.DELETE_GENERIC_ERROR
+    })
+  }
 }
