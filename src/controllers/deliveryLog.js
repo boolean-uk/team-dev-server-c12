@@ -10,7 +10,7 @@ export const createDeliveryLog = async (req, res) => {
   if (!cohortId || !lines) {
     return res.status(400).json({
       status: 'error',
-      data: ERR.INCOMPLETE_REQUEST
+      data: ERR.INCOMPLETE_DELIVERY_LOG_REQUEST
     })
   }
 

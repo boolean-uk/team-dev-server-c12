@@ -173,13 +173,13 @@ export default class User {
   }
 
   static async deleteUserByIdDb(id) {
-    // const userToDelete = await this.findById('id', id)
-    console.log(id);
     return await dbClient.user.delete({
       where: {
         id: id
       }
     })
+  }
+
   static async updateUser(id, json) {
     const {
       email,

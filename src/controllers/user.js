@@ -88,16 +88,16 @@ export const updateById = async (req, res) => {
 export const deleteUserById = async (req, res) => {
   const id = Number(req.params.id)
   const user = req.user
-  console.log(id)
-  console.log(typeof id)
-
+  if (!id) {
+    
+  }
   try {
     const userToDelete = await User.findById(id)
 
     if (userToDelete.id !== id || user.role !== 'TEACHER') {
       return res.status(401).json({
         status: 'error',
-        data: ERR.DELETE_NOT_ALLOWED
+        data: ERR.REQUEST_FORBIDDEN
       })
     }
 
