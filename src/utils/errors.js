@@ -19,5 +19,6 @@ export default {
   UNAUTHORISED: 'You are not authorised to do this',
   MISSING_AUTH_HEADER: 'No authorisation header',
   TOKEN_FAILED: 'Missing or invalid token',
-  INTERNAL_ERROR: 'The server was unable to complete this request'
+  INTERNAL_ERROR: 'The server was unable to complete this request',
+  MISSING_CONTENT: 'The content is missing from the request body'
 }
