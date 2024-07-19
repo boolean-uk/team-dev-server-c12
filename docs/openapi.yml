@@ -162,14 +162,26 @@ paths:
             schema:
               $ref: '#/components/schemas/UpdateUser'
       responses:
-        '201':
+        '200':
           description: Successful operation
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreatedUser'
-        '401':
-          description: fail
+        '400':
+          description: Missing fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: A user does not exist with that id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: User is unauthorised to make a change
           content:
             application/json:
               schema:
