@@ -10,5 +10,7 @@ export default {
   INCOMPLETE_REQUEST:
     'Cohort ID AND log-lines must be provided in order to create a delivery log',
   DELIVERY_LOG_GENERIC_ERROR:
-    'An error occurred while creating the delivery log.'
+    'An error occurred while creating the delivery log.',
+  DATE_FORMATTING: 'Invalid date format. Please use yyyy/mm/dd.',
+  DATE_REQUIRED: 'Date is required'
 }
