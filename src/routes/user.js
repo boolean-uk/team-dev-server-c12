@@ -16,7 +16,6 @@ const router = Router()
 router.post('/', create)
 router.get('/', validateAuthentication, getAll)
 router.get('/:id', validateAuthentication, getById)
-router.patch('/:id', validateAuthentication, validateTeacherRole, updateById)
 router.delete('/:id', validateAuthentication, deleteUserById)
 router.patch('/:id', validateAuthentication, updateById)
 

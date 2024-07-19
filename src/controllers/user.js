@@ -75,7 +75,7 @@ export const updateById = async (req, res) => {
   if (!foundUser) {
     return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
   }
-  const canPatch = validation.validateCanPatch(req)
+  const canPatch = validation.validateCanModify(req)
   if (!canPatch) {
     return sendDataResponse(res, 403, { error: ERR.NOT_AUTHORISED })
   }
@@ -90,11 +90,12 @@ export const deleteUserById = async (req, res) => {
   const id = Number(req.params.id)
   const canDelete = validateCanModify(req)
 
+  if (isNaN(id)) {
+    return sendDataResponse(res, 400, ERR.BAD_REQUEST)
+  }
+
   if (!canDelete) {
-    return res.status(401).json({
-      status: 'error',
-      data: ERR.REQUEST_FORBIDDEN
-    })
+    return sendDataResponse(res, 401, { error: ERR.NOT_AUTHORISED })
   }
 
   try {
@@ -115,9 +116,6 @@ export const deleteUserById = async (req, res) => {
     return sendDataResponse(res, 201, { deleted_user: userToDelete })
   } catch (error) {
     console.error('An error occurred while creating the delivery log', error)
-    return res.status(500).json({
-      status: 'error',
-      data: ERR.DELETE_GENERIC_ERROR
-    })
+    return sendDataResponse(res, 500, { error: ERR.DELETE_GENERIC_ERROR })
   }
 }
