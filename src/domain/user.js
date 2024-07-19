@@ -171,4 +171,36 @@ export default class User {
 
     return foundUsers.map((user) => User.fromDb(user))
   }
+
+  static async updateUser(id, json) {
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      bio,
+      githubUsername,
+      username,
+      mobile
+    } = json
+    const updatedUser = await dbClient.user.update({
+      where: {
+        id: id
+      },
+      data: {
+        email: email,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+        bio: bio,
+        githubUsername: githubUsername,
+        username: username,
+        mobile: mobile
+      },
+      include: {
+        profile: true
+      }
+    })
+    return updatedUser
+  }
 }

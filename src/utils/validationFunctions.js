@@ -18,3 +18,15 @@ export function register(email, password) {
     throw Error(ERR.PASSWORD_REQUIREMENTS)
   }
 }
+
+export function validateCanPatch(req) {
+  const { role, id } = req.user
+  const targetUserId = Number(req.params.id)
+  const isUser = id === targetUserId
+  const isTeacher = role === 'TEACHER'
+
+  if (!isTeacher && !isUser) {
+    return false
+  }
+  return true
+}

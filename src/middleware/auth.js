@@ -69,6 +69,5 @@ function validateTokenType(type) {
   if (type.toUpperCase() !== 'BEARER') {
     return false
   }
-
   return true
 }
