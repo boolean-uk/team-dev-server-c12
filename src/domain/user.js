@@ -26,7 +26,8 @@ export default class User {
 
   static async fromJson(json) {
     // eslint-disable-next-line camelcase
-    const { firstName, lastName, email, biography, githubUrl, password } = json
+    const { firstName, lastName, email, biography, githubUrl, password, role } =
+      json
 
     const passwordHash = await bcrypt.hash(password, 8)
 
@@ -38,7 +39,8 @@ export default class User {
       email,
       biography,
       githubUrl,
-      passwordHash
+      passwordHash,
+      role
     )
   }
 
@@ -51,7 +53,7 @@ export default class User {
     bio,
     githubUrl,
     passwordHash = null,
-    role = 'STUDENT'
+    role
   ) {
     this.id = id
     this.cohortId = cohortId
@@ -98,16 +100,15 @@ export default class User {
       }
     }
 
-    if (this.firstName && this.lastName) {
-      data.profile = {
-        create: {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          bio: this.bio,
-          githubUrl: this.githubUrl
-        }
+    data.profile = {
+      create: {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        bio: this.bio,
+        githubUrl: this.githubUrl
       }
     }
+
     const createdUser = await dbClient.user.create({
       data,
       include: {
