@@ -19,7 +19,7 @@ export function register(email, password) {
   }
 }
 
-export function validateCanPatch(req) {
+export function validateCanModify(req) {
   const { role, id } = req.user
   const targetUserId = Number(req.params.id)
   const isUser = id === targetUserId
