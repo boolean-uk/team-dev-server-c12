@@ -18,23 +18,21 @@ export function register(email, password) {
     throw Error(ERR.PASSWORD_REQUIREMENTS)
   }
 }
+const parseAndValidateDate = (dateString) => {
+  const [year, month, day] = dateString.split('/').map(Number)
+  const date = new Date(Date.UTC(year, month - 1, day))
+  return date.toISOString().startsWith(dateString.replace(/\//g, '-'))
+    ? date
+    : null
+}
 export function dateValidation(startDate, endDate) {
-  if (!startDate) {
-    throw Error(ERR.DATE_REQUIRED)
-  }
-  if (!endDate) {
+  if (!startDate || endDate) {
     throw Error(ERR.DATE_REQUIRED)
   }
   if (!dateRegex.test(startDate) || !dateRegex.test(endDate)) {
     throw Error(ERR.DATE_FORMATTING)
   }
-  const parseAndValidateDate = (dateString) => {
-    const [year, month, day] = dateString.split('/').map(Number)
-    const date = new Date(Date.UTC(year, month - 1, day))
-    return date.toISOString().startsWith(dateString.replace(/\//g, '-'))
-      ? date
-      : null
-  }
+
   const parsedStartDate = parseAndValidateDate(startDate)
   const parsedEndDate = parseAndValidateDate(endDate)
   if (!parsedStartDate || !parsedEndDate) {
