@@ -89,7 +89,10 @@ export const deleteUserById = async (req, res) => {
   const id = Number(req.params.id)
   const user = req.user
   if (!id) {
-    
+    return res.status(400).json({
+      status: 'error',
+      data: ERR.INCOMPLETE_REQUEST
+    })
   }
   try {
     const userToDelete = await User.findById(id)
@@ -105,7 +108,7 @@ export const deleteUserById = async (req, res) => {
       return sendDataResponse(res, 404, { id: 'User not found' })
     }
 
-    const deletedUser = User.deleteUserByIdDb(userToDelete)
+    const deletedUser = User.deleteUserByIdDb(userToDelete.id)
     return sendDataResponse(res, 201, { deleted_user: deletedUser })
   } catch (error) {
     console.error('An error occurred while creating the delivery log', error)
