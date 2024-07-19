@@ -8,6 +8,7 @@ export const create = async (req, res) => {
 
     return sendDataResponse(res, 201, createdCohort)
   } catch (e) {
+    console.log('An error occured while trying to create a cohort:', e)
     return sendMessageResponse(res, 500, { error: ERR.INTERNAL_ERROR })
   }
 }
