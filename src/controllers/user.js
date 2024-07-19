@@ -113,9 +113,12 @@ export const deleteUserById = async (req, res) => {
     })
 
     await User.deleteUserByIdDb(userToDelete.id)
-    return sendDataResponse(res, 201, { deleted_user: userToDelete })
+    return sendDataResponse(res, 200, { deleted_user: userToDelete })
   } catch (error) {
-    console.error('An error occurred while creating the delivery log', error)
+    console.error(
+      'An error occured while proccessing this delete request',
+      error
+    )
     return sendDataResponse(res, 500, { error: ERR.DELETE_GENERIC_ERROR })
   }
 }
