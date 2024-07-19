@@ -8,9 +8,8 @@ export const createDeliveryLog = async (req, res) => {
   const { firstName, lastName } = req.user
 
   if (!cohortId || !lines) {
-    return res.status(400).json({
-      status: 'error',
-      data: ERR.INCOMPLETE_DELIVERY_LOG_REQUEST
+    return sendDataResponse(res, 400, {
+      error: ERR.INCOMPLETE_DELIVERY_LOG_REQUEST
     })
   }
 
