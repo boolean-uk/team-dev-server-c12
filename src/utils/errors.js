@@ -9,4 +9,10 @@ export default {
   REQUEST_FORBIDDEN: 'User does not have access for request',
   EMAIL_PASS_INVALID: 'The email or password is incorrect',
   NOT_AUTHORISED: 'You are unauthorised to make that change'
+  POST_NOT_FOUND: 'Post not found by that Id',
+  COHORT_NOT_FOUND: 'No cohort with the provided ID exists',
+  INCOMPLETE_REQUEST:
+    'Cohort ID AND log-lines must be provided in order to create a delivery log',
+  DELIVERY_LOG_GENERIC_ERROR:
+    'An error occurred while creating the delivery log.'
 }
