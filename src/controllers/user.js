@@ -1,5 +1,4 @@
 import User from '../domain/user.js'
-import errors from '../utils/errors.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import * as validation from '../utils/validationFunctions.js'
 import ERR from '../utils/errors.js'
@@ -76,11 +75,11 @@ export const updateById = async (req, res) => {
     return sendDataResponse(res, 400, { cohort_id: 'Cohort ID is required' })
   }
   if (!foundUser) {
-    return sendDataResponse(res, 404, { error: errors.USER_NOT_FOUND })
+    return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
   }
   const canPatch = validation.validateCanPatch(req)
   if (!canPatch) {
-    return sendDataResponse(res, 403, { error: errors.NOT_AUTHORISED })
+    return sendDataResponse(res, 403, { error: ERR.NOT_AUTHORISED })
   }
   const updatedUser = await User.updateUser(id, req.body)
   return sendDataResponse(res, 200, { user: updatedUser })
