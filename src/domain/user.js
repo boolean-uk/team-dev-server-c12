@@ -190,7 +190,8 @@ export default class User {
       bio,
       githubUsername,
       username,
-      mobile
+      mobile,
+      cohortId
     } = json
     const updatedUser = await dbClient.user.update({
       where: {
@@ -199,12 +200,17 @@ export default class User {
       data: {
         email: email,
         password: password,
-        firstName: firstName,
-        lastName: lastName,
-        bio: bio,
-        githubUsername: githubUsername,
-        username: username,
-        mobile: mobile
+        cohortId,
+        profile: {
+          update: {
+            firstName: firstName,
+            lastName: lastName,
+            bio: bio,
+            githubUsername: githubUsername,
+            username: username,
+            mobile: mobile
+          }
+        }
       },
       include: {
         profile: true
