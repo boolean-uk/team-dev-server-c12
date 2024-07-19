@@ -321,6 +321,12 @@ paths:
       operationId: createCohort
       security:
         - bearerAuth: []
+      requestBody:
+        description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createCohort'
       responses:
         201:
           description: success
@@ -332,15 +338,18 @@ paths:
                   status:
                     type: string
                   data:
+                    type: object
                     properties:
                       cohort:
-                        $ref: '#/components/schemas/Cohort'
+                        properties:
+                          id:
+                            $ref: '#/components/schemas/Cohort'
         400:
           description: fail
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/CohortError'
 
 components:
   securitySchemes:
@@ -368,12 +377,22 @@ components:
       properties:
         id:
           type: integer
+        startDate:
+          type: string
+          format: string
+        endDate:
+          type: string
+          format: string
         createdAt:
           type: string
           format: string
         updatedAt:
           type: string
           format: string
+        users:
+          type: array
+        deliveryLogs:
+          type: array
 
     AllUsers:
       type: object
@@ -581,6 +600,15 @@ components:
           properties:
             error:
               type: string
+    CohortError:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          properties:
+            error:
+              type: string
 
     Log:
       type: object
@@ -615,3 +643,10 @@ components:
                         type: integer
                       content:
                         type: string
+    CreateCohort:
+      type: object
+      properties:
+        startDate:
+          type: string
+        endDate:
+          type: string

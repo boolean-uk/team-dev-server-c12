@@ -26,7 +26,7 @@ const parseAndValidateDate = (dateString) => {
     : null
 }
 export function dateValidation(startDate, endDate) {
-  if (!startDate || endDate) {
+  if (!startDate || !endDate) {
     throw Error(ERR.DATE_REQUIRED)
   }
   if (!dateRegex.test(startDate) || !dateRegex.test(endDate)) {
