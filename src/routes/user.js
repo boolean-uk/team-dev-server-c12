@@ -6,10 +6,7 @@ import {
   updateById,
   deleteUserById
 } from '../controllers/user.js'
-import {
-  validateAuthentication,
-  validateTeacherRole
-} from '../middleware/auth.js'
+import { validateAuthentication } from '../middleware/auth.js'
 
 const router = Router()
 
