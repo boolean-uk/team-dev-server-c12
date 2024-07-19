@@ -16,7 +16,6 @@ export default {
     'An error occurred while creating the delivery log.',
   EMAIL_IN_USE: 'This email address is already in use',
   UNABLE_TO_CREATE_USER: 'Unable to create new user',
-  UNAUTHORISED: 'You are not authorised to do this',
   MISSING_AUTH_HEADER: 'No authorisation header',
   TOKEN_FAILED: 'Missing or invalid token',
   INTERNAL_ERROR: 'The server was unable to complete this request',
