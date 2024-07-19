@@ -13,5 +13,11 @@ export default {
   INCOMPLETE_REQUEST:
     'Cohort ID AND log-lines must be provided in order to create a delivery log',
   DELIVERY_LOG_GENERIC_ERROR:
-    'An error occurred while creating the delivery log.'
+    'An error occurred while creating the delivery log.',
+  EMAIL_IN_USE: 'This email address is already in use',
+  UNABLE_TO_CREATE_USER: 'Unable to create new user',
+  USER_NOT_FOUND: 'Unable to find user',
+  UNAUTHORISED: 'You are not authorised to do this',
+  MISSING_AUTH_HEADER: 'No authorisation header',
+  TOKEN_FAILED: 'Missing or invalid token'
 }
