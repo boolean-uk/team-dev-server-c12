@@ -80,6 +80,6 @@ export const updateById = async (req, res) => {
   if (!canPatch) {
     return sendDataResponse(res, 403, { error: errors.NOT_AUTHORISED })
   }
-  const updatedUser = await User._updateUser(id, req.body)
+  const updatedUser = await User.updateUser(id, req.body)
   return sendDataResponse(res, 200, { user: updatedUser })
 }

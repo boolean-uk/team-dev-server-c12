@@ -172,7 +172,7 @@ export default class User {
     return foundUsers.map((user) => User.fromDb(user))
   }
 
-  static async _updateUser(id, json) {
+  static async updateUser(id, json) {
     const {
       email,
       password,
