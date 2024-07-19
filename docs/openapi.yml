@@ -60,7 +60,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AllUsers'
         '400':
-          description: fail
+          description: Incomplete Request
           content:
             application/json:
               schema:
@@ -93,7 +93,7 @@ paths:
                 $ref: '#/components/schemas/loginRes'
 
         '400':
-          description: fail
+          description: Incomplete Request
           content: 
             application/json:
               schema:
@@ -128,14 +128,14 @@ paths:
                   data:
                     $ref: '#/components/schemas/User'
 
-        '400':
-          description: fail
+        '500':
+          description: Unable to get user
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
         '404':
-          description: fail
+          description: User not found by that id
           content:
             application/json:
               schema:
@@ -162,14 +162,26 @@ paths:
             schema:
               $ref: '#/components/schemas/UpdateUser'
       responses:
-        '201':
+        '200':
           description: Successful operation
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreatedUser'
-        '401':
-          description: fail
+        '400':
+          description: Incomplete Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: A user does not exist with that id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: User is unauthorised to make a change
           content:
             application/json:
               schema:
@@ -200,7 +212,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Post'
         400:
-          description: fail
+          description: Incomplete Request
           content:
             application/json:
               schema:
@@ -255,7 +267,7 @@ paths:
                   data:
                     $ref: '#/components/schemas/Posts'
         '401':
-          description: fail
+          description: Post not found with that id
           content:
             application/json:
               schema:
@@ -295,7 +307,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Log'
         400:
-          description: Fail
+          description: Incomplete Request
           content:
             application/json:
               schema:
@@ -307,11 +319,18 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         404:
-          description: Fail
+          description: Cohort not found by that id
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        500:
+          description: An error occured while creating the delivery log
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /cohorts:
     post:
       tags:
@@ -323,10 +342,10 @@ paths:
         - bearerAuth: []
       requestBody:
         description: success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/createCohort'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createCohort'
       responses:
         201:
           description: success
@@ -349,7 +368,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CohortError'
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Unable to create cohort
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
 components:
   securitySchemes:
@@ -597,15 +622,6 @@ components:
         status:
           type: string
         data:
-          properties:
-            error:
-              type: string
-    CohortError:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
           properties:
             error:
               type: string
