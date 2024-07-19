@@ -8,5 +8,6 @@ export default {
   USER_NOT_FOUND: 'User not found by that Id',
   REQUEST_FORBIDDEN: 'User does not have access for request',
   EMAIL_PASS_INVALID: 'The email or password is incorrect',
-  NOT_AUTHORISED: 'You are unauthorised to make that change'
+  NOT_AUTHORISED: 'You are unauthorised to make that change',
+  COHORT_NOT_FOUND: 'No cohort with the provided ID exists'
 }
