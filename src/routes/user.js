@@ -4,6 +4,8 @@ import {
   validateAuthentication,
   validateTeacherRole
 } from '../middleware/auth.js'
+import { create, getById, getAll, updateById } from '../controllers/user.js'
+import { validateAuthentication } from '../middleware/auth.js'
 
 const router = Router()
 
@@ -12,5 +14,6 @@ router.get('/', validateAuthentication, getAll)
 router.get('/:id', validateAuthentication, getById)
 router.patch('/:id', validateAuthentication, validateTeacherRole, updateById)
 router.delete('/:id', validateAuthentication, deleteUserById)
+router.patch('/:id', validateAuthentication, updateById)
 
 export default router
