@@ -5,12 +5,12 @@ import { sendDataResponse } from '../utils/responses.js'
 
 export const createNote = async (req, res) => {
   const { teacherId, studentId, content } = req.body
-  const contentIsValid = content.length > 0
 
   if (!teacherId || !studentId || !content) {
     return sendDataResponse(res, 400, { error: ERR.INCOMPLETE_REQUEST })
   }
 
+  const contentIsValid = content.length > 0
   if (!contentIsValid) {
     return sendDataResponse(res, 400, { error: ERR.INVALID_NOTE_CONTENT })
   }
