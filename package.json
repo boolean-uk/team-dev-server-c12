@@ -7,7 +7,13 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "db-reset": "prisma migrate reset"
+    "db-reset": "prisma migrate reset",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
   },
   "prisma": {
     "seed": "node prisma/seed.js"
@@ -25,6 +31,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.24.9",
+    "@babel/preset-env": "^7.24.8",
     "@boolean-uk/boolean-prettier-config": "^1.0.2",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.5.0",
