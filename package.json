@@ -8,6 +8,7 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "db-reset": "prisma migrate reset",
+    "test:migration": "node tests/testDBMigrations.js",
     "test": "node --experimental-vm-modules node_modules/.bin/jest"
   },
   "jest": {

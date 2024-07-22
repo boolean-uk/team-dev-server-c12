@@ -10,4 +10,5 @@ try {
   exec('npx prisma generate', { encoding: 'utf-8' })
 } catch (e) {
   console.log('An error occured with the test db migration:', e)
+  process.exit()
 }
