@@ -33,6 +33,10 @@ export const create = async (req, res) => {
 
 export const getById = async (req, res) => {
   const id = parseInt(req.params.id)
+  const { role } = req.user
+
+  if (role === 'TEACHER') {
+  }
 
   try {
     const foundUser = await User.findById(id)
@@ -68,43 +72,22 @@ export const getAll = async (req, res) => {
 }
 
 export const updateById = async (req, res) => {
-<<<<<<< HEAD
-  console.log('test:1')
-  const { cohort_id: cohortId } = req.body
-=======
->>>>>>> main
   const paramsId = Number(req.params.id)
   const { id } = req.user
   const foundUser = await User.findById(paramsId)
 
-<<<<<<< HEAD
-  if (!cohortId) {
-    return sendDataResponse(res, 400, { cohort_id: 'Cohort ID is required' })
-  }
-  console.log('test:2')
-  if (!foundUser) {
-    return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
-  }
-  console.log('test:3')
-  const canPatch = validation.validateCanPatch(req)
-=======
   if (!foundUser) {
     return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
   }
   const canPatch = validation.validateCanModify(req)
->>>>>>> main
   if (!canPatch) {
     return sendDataResponse(res, 403, { error: ERR.NOT_AUTHORISED })
   }
   console.log('test:4')
   const updatedUser = await User.updateUser(id, req.body)
-<<<<<<< HEAD
-  console.log('test:', updatedUser)
-=======
 
   delete updatedUser.password
 
->>>>>>> main
   return sendDataResponse(res, 200, { user: updatedUser })
 }
 
