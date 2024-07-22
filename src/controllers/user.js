@@ -21,6 +21,7 @@ export const create = async (req, res) => {
 
     const createdUser = await userToCreate.save()
 
+    console.log(createdUser)
     return sendDataResponse(res, 201, createdUser)
   } catch (error) {
     console.error(ERR.UNABLE_TO_CREATE_USER, error)
@@ -47,7 +48,6 @@ export const getById = async (req, res) => {
 export const getAll = async (req, res) => {
   // eslint-disable-next-line camelcase
   const { first_name: firstName } = req.query
-
   let foundUsers
 
   if (firstName) {
@@ -66,6 +66,7 @@ export const getAll = async (req, res) => {
 }
 
 export const updateById = async (req, res) => {
+  console.log('test:1')
   const { cohort_id: cohortId } = req.body
   const paramsId = Number(req.params.id)
   const { id } = req.user
@@ -74,13 +75,17 @@ export const updateById = async (req, res) => {
   if (!cohortId) {
     return sendDataResponse(res, 400, { cohort_id: 'Cohort ID is required' })
   }
+  console.log('test:2')
   if (!foundUser) {
     return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
   }
+  console.log('test:3')
   const canPatch = validation.validateCanPatch(req)
   if (!canPatch) {
     return sendDataResponse(res, 403, { error: ERR.NOT_AUTHORISED })
   }
+  console.log('test:4')
   const updatedUser = await User.updateUser(id, req.body)
+  console.log('test:', updatedUser)
   return sendDataResponse(res, 200, { user: updatedUser })
 }
