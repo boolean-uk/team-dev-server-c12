@@ -35,17 +35,26 @@ export const getById = async (req, res) => {
   const id = parseInt(req.params.id)
   const { role } = req.user
 
-  if (role === 'TEACHER') {
-  }
-
   try {
-    const foundUser = await User.findById(id)
+    if (role === 'TEACHER') {
+      const foundUser = await User.getByIdAsTeacher(id)
+      console.log('foundAsTeacher', foundUser)
 
-    if (!foundUser) {
-      return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
+      if (!foundUser) {
+        return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
+      }
+      console.log('test10               :', foundUser)
+      return res.status(200).json({ status: 'success', data: foundUser })
+      // return sendDataResponse(res, 200, foundUser)
+    } else {
+      const foundUser = await User.findById(id, role)
+
+      if (!foundUser) {
+        return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
+      }
+      console.log('testtttttttttttttttttttttttttttttttttt')
+      return sendDataResponse(res, 200, foundUser)
     }
-
-    return sendDataResponse(res, 200, foundUser)
   } catch (e) {
     return sendMessageResponse(res, 500, 'Unable to get user')
   }
@@ -83,7 +92,6 @@ export const updateById = async (req, res) => {
   if (!canPatch) {
     return sendDataResponse(res, 403, { error: ERR.NOT_AUTHORISED })
   }
-  console.log('test:4')
   const updatedUser = await User.updateUser(id, req.body)
 
   delete updatedUser.password

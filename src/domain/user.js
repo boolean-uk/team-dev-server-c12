@@ -24,6 +24,26 @@ export default class User {
     )
   }
 
+  static fromDbAsTeacher(user) {
+    // Check if there are notes received and take the first one, if available
+    const firstNote = user.notesReceived.length > 0 ? user.notesReceived[0] : {}
+
+    return new User(
+      user.id,
+      user.cohortId,
+      user.profile?.firstName,
+      user.profile?.lastName,
+      user.email,
+      user.profile?.bio,
+      user.profile?.githubUsername,
+      user.password,
+      user.role,
+      firstNote.content || null, // Default to null if no content
+      firstNote.teacherId || null, // Default to null if no teacherId
+      firstNote.studentId || null // Default to null if no studentId
+    )
+  }
+
   static async fromJson(json) {
     // eslint-disable-next-line camelcase
     const {
@@ -61,7 +81,10 @@ export default class User {
     bio,
     githubUsername,
     passwordHash = null,
-    role
+    role,
+    noteContent,
+    noteTeacherId,
+    noteStudentId
   ) {
     this.id = id
     this.cohortId = cohortId
@@ -72,6 +95,9 @@ export default class User {
     this.githubUsername = githubUsername
     this.passwordHash = passwordHash
     this.role = role
+    this.noteContent = noteContent
+    this.noteTeacherId = noteTeacherId
+    this.noteStudentId = noteStudentId
   }
 
   toJSON() {
@@ -132,6 +158,11 @@ export default class User {
     return User._findByUnique('email', email)
   }
 
+  static async getByIdAsTeacher(id) {
+    const user = await User._findByUniqueAsTeacher('id', id)
+    return user
+  }
+
   static async findById(id) {
     return User._findByUnique('id', id)
   }
@@ -142,6 +173,34 @@ export default class User {
 
   static async findAll() {
     return User._findMany()
+  }
+
+  static async _findByUniqueAsTeacher(key, value) {
+    const foundUser = await dbClient.user.findFirst({
+      where: {
+        [key]: value
+      },
+      include: {
+        profile: true,
+        notesReceived: {
+          include: {
+            teacher: {
+              include: {
+                profile: true
+              }
+            }
+          }
+        }
+      }
+    })
+
+    if (foundUser) {
+      // console.log('test', foundUser)
+      // return foundUser
+      return User.fromDbAsTeacher(foundUser)
+    }
+
+    return null
   }
 
   static async _findByUnique(key, value) {
