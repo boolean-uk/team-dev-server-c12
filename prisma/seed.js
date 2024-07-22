@@ -28,6 +28,8 @@ async function seed() {
   await createPost(student.id, 'My first post!')
   await createPost(teacher.id, 'Hello, students')
 
+  await createNote(teacher.id, student.id, 'This is a note for the student.')
+
   process.exit(0)
 }
 
@@ -55,6 +57,20 @@ async function createCohort() {
   console.info('Cohort created', cohort)
 
   return cohort
+}
+
+async function createNote(teacherId, studentId, content) {
+  const note = await prisma.note.create({
+    data: {
+      teacherId,
+      studentId,
+      content
+    }
+  })
+
+  console.log('Note created', note)
+
+  return note
 }
 
 async function createUser(
