@@ -11,7 +11,7 @@ export async function validateTeacherRole(req, res, next) {
 
   if (req.user.role !== 'TEACHER') {
     return sendDataResponse(res, 403, {
-      error: ERR.UNAUTHORISED
+      error: ERR.NOT_AUTHORISED
     })
   }
 
