@@ -21,7 +21,8 @@ export const login = async (req, res) => {
 
     return sendDataResponse(res, 200, { token, ...foundUser.toJSON() })
   } catch (e) {
-    return sendMessageResponse(res, 500, 'Unable to process request')
+    console.log('An error occured while trying to login:', e)
+    return sendMessageResponse(res, 500, { error: ERR.INTERNAL_ERROR })
   }
 }
 

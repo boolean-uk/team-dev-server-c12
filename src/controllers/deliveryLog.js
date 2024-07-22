@@ -8,19 +8,15 @@ export const createDeliveryLog = async (req, res) => {
   const { firstName, lastName } = req.user
 
   if (!cohortId || !lines) {
-    return res.status(400).json({
-      status: 'error',
-      data: ERR.INCOMPLETE_REQUEST
+    return sendDataResponse(res, 400, {
+      error: ERR.INCOMPLETE_DELIVERY_LOG_REQUEST
     })
   }
 
   try {
     const cohortExists = await getCohortById(cohortId)
     if (!cohortExists) {
-      return res.status(404).json({
-        status: 'error',
-        data: ERR.COHORT_NOT_FOUND
-      })
+      return sendDataResponse(res, 404, { error: ERR.COHORT_NOT_FOUND })
     }
     const log = await createDeliveryLogDb(cohortId, req.user.id, lines)
 
@@ -46,9 +42,6 @@ export const createDeliveryLog = async (req, res) => {
     })
   } catch (error) {
     console.error('An error occurred while creating the delivery log', error)
-    return res.status(500).json({
-      status: 'error',
-      data: ERR.DELIVERY_LOG_GENERIC_ERROR
-    })
+    return sendDataResponse(res, 500, { error: ERR.DELIVERY_LOG_GENERIC_ERROR })
   }
 }

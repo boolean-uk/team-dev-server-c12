@@ -7,7 +7,7 @@ export default class User {
    * take as inputs, what types they return, and other useful information that JS doesn't have built in
    * @tutorial https://www.valentinog.com/blog/jsdoc
    *
-   * @param { { id: int, cohortId: int, email: string, profile: { firstName: string, lastName: string, bio: string, githubUrl: string } } } user
+   * @param { { id: int, cohortId: int, email: string, profile: { firstName: string, lastName: string, bio: string, githubUsername: string } } } user
    * @returns {User}
    */
   static fromDb(user) {
@@ -18,7 +18,7 @@ export default class User {
       user.profile?.lastName,
       user.email,
       user.profile?.bio,
-      user.profile?.githubUrl,
+      user.profile?.githubUsername,
       user.password,
       user.role
     )
@@ -26,19 +26,27 @@ export default class User {
 
   static async fromJson(json) {
     // eslint-disable-next-line camelcase
-    const { firstName, lastName, email, biography, githubUrl, password, role } =
-      json
+    const {
+      firstName,
+      lastName,
+      email,
+      biography,
+      githubUsername,
+      password,
+      role,
+      cohortId
+    } = json
 
     const passwordHash = await bcrypt.hash(password, 8)
 
     return new User(
       null,
-      null,
+      cohortId,
       firstName,
       lastName,
       email,
       biography,
-      githubUrl,
+      githubUsername,
       passwordHash,
       role
     )
@@ -51,7 +59,7 @@ export default class User {
     lastName,
     email,
     bio,
-    githubUrl,
+    githubUsername,
     passwordHash = null,
     role
   ) {
@@ -61,7 +69,7 @@ export default class User {
     this.lastName = lastName
     this.email = email
     this.bio = bio
-    this.githubUrl = githubUrl
+    this.githubUsername = githubUsername
     this.passwordHash = passwordHash
     this.role = role
   }
@@ -70,13 +78,13 @@ export default class User {
     return {
       user: {
         id: this.id,
-        cohort_id: this.cohortId,
+        cohortId: this.cohortId,
         role: this.role,
         firstName: this.firstName,
         lastName: this.lastName,
         email: this.email,
-        biography: this.bio,
-        githubUrl: this.githubUrl
+        bio: this.bio,
+        githubUsername: this.githubUsername
       }
     }
   }
@@ -95,7 +103,8 @@ export default class User {
     if (this.cohortId) {
       data.cohort = {
         connectOrCreate: {
-          id: this.cohortId
+          where: { id: this.cohortId },
+          create: { id: this.cohortId }
         }
       }
     }
@@ -105,7 +114,7 @@ export default class User {
         firstName: this.firstName,
         lastName: this.lastName,
         bio: this.bio,
-        githubUrl: this.githubUrl
+        githubUsername: this.githubUsername
       }
     }
 
@@ -172,6 +181,14 @@ export default class User {
     return foundUsers.map((user) => User.fromDb(user))
   }
 
+  static async deleteUserByIdDb(id) {
+    return await dbClient.user.delete({
+      where: {
+        id: id
+      }
+    })
+  }
+
   static async updateUser(id, json) {
     const {
       email,
@@ -181,7 +198,8 @@ export default class User {
       bio,
       githubUsername,
       username,
-      mobile
+      mobile,
+      cohortId
     } = json
     const updatedUser = await dbClient.user.update({
       where: {
@@ -190,12 +208,17 @@ export default class User {
       data: {
         email: email,
         password: password,
-        firstName: firstName,
-        lastName: lastName,
-        bio: bio,
-        githubUsername: githubUsername,
-        username: username,
-        mobile: mobile
+        cohortId,
+        profile: {
+          update: {
+            firstName: firstName,
+            lastName: lastName,
+            bio: bio,
+            githubUsername: githubUsername,
+            username: username,
+            mobile: mobile
+          }
+        }
       },
       include: {
         profile: true
