@@ -6,11 +6,6 @@ export const createNoteDb = async (teacherId, studentId, content) => {
       teacherId: teacherId,
       studentId: studentId,
       content: content
-    },
-    include: {
-      teacherId: true,
-      studentId: true,
-      content: true
     }
   })
   return newNote
