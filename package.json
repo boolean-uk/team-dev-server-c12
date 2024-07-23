@@ -11,7 +11,8 @@
     "test:migration": "node tests/testDBMigrations.js",
     "test": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests",
     "test-users": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/user.spec.js",
-    "test-login": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/login.spec.js"
+    "test-login": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/login.spec.js",
+    "test-cohorts": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/cohort.spec.js"
   },
   "jest": {
     "transform": {
