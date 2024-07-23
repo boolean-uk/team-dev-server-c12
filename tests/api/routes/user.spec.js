@@ -1,8 +1,10 @@
 import supertest from 'supertest'
 import app from '../../../src/server.js'
+import jwt from 'jsonwebtoken'
+import { createUser } from '../../helpers/createUser.js'
 
 describe('Users Endpoint', () => {
-  describe('POST/ users', () => {
+  describe('POST /users', () => {
     it('should create/register a user', async () => {
       const request = {
         firstName: 'Jonny',
@@ -62,6 +64,24 @@ describe('Users Endpoint', () => {
       expect(response.body.data.error).toEqual(
         'Password must contain at least one upper case character, at least one number, at least one special character and not be less than 8 characters in length.'
       )
+    })
+  })
+
+  describe('GET users/:id', () => {
+    it('should get a user by ID', async () => {
+      const user = await createUser(
+        'newuser@boolean.org',
+        'password',
+        'STUDENT'
+      )
+
+      const token = jwt.sign(user.id, process.env.JWT_SECRET)
+
+      const response = await supertest(app)
+        .get(`/users/${user.id}`)
+        .set('Authorization', `Bearer ${token}`)
+
+        console.log(response)
     })
   })
 })

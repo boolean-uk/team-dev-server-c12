@@ -7,7 +7,7 @@ describe('login endpoint', () => {
       const registerRequest = {
         firstName: 'Jonny',
         lastName: 'Smith',
-        email: 'jonny@smith.com',
+        email: 'jonny@test.com',
         bio: 'lorem',
         githubUsername: 'ipsum',
         password: 'Password!1',
