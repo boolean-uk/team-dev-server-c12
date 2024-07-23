@@ -5,8 +5,6 @@ import ERR from '../utils/errors.js'
 export const create = async (req, res) => {
   try {
     const createdCohort = await createCohort()
-    console.log(createdCohort)
-
     return sendDataResponse(res, 201, createdCohort)
   } catch (e) {
     console.log('An error occured while trying to create a cohort:', e)
