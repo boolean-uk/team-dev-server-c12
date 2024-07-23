@@ -20,6 +20,7 @@ describe('Users Endpoint', () => {
       const { user } = response.body.data
 
       expect(response.status).toEqual(201)
+      expect(response.body.status).toEqual('success')
       expect(user.firstName).toEqual('Jonny')
     })
 
@@ -39,7 +40,6 @@ describe('Users Endpoint', () => {
 
       expect(response.status).toEqual(400)
       expect(response.body.status).toEqual('fail')
-      console.log(response.body.data.error)
       expect(response.body.data.error).toEqual('Email is required')
     })
 

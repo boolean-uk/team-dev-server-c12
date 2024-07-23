@@ -10,7 +10,8 @@
     "db-reset": "prisma migrate reset",
     "test:migration": "node tests/testDBMigrations.js",
     "test": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests",
-    "test-users": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/user.spec.js"
+    "test-users": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/user.spec.js",
+    "test-login": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/login.spec.js"
   },
   "jest": {
     "transform": {
