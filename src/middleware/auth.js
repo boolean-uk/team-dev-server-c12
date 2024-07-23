@@ -44,7 +44,7 @@ export async function validateAuthentication(req, res, next) {
   }
 
   const decodedToken = jwt.decode(token)
-  const foundUser = await User.findById(decodedToken.userId)
+  const foundUser = await User.findById(Number(decodedToken.userId))
   delete foundUser.passwordHash
 
   req.user = foundUser
