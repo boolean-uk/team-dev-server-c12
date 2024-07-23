@@ -9,7 +9,10 @@
     "dev": "nodemon src/index.js",
     "db-reset": "prisma migrate reset",
     "test:migration": "node tests/testDBMigrations.js",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests",
+    "test-login": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/login.spec.js",
+    "test-cohorts": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/cohort.spec.js",
+    "test-logs": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/deliveryLog.spec.js"
   },
   "jest": {
     "transform": {

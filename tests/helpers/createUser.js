@@ -7,7 +7,13 @@ export const createUser = async (email, password, role) => {
     data: {
       email,
       password,
-      role
+      role,
+      profile: {
+        create: {
+          firstName: 'Jimmy',
+          lastName: 'Boab'
+        }
+      }
     }
   })
 }
