@@ -66,7 +66,6 @@ describe('Users Endpoint', () => {
       )
     })
   })
-
   describe('GET users/:id', () => {
     it('should get a user by ID', async () => {
       const user = await createUser(
@@ -83,6 +82,51 @@ describe('Users Endpoint', () => {
 
       expect(response.status).toEqual(200)
       expect(response.body.data.user.email).toEqual(user.email)
+    })
+    it('should throw an error if no user exists with that ID', async () => {
+      const user1 = await createUser(
+        'newuser@boolean.org',
+        'password',
+        'STUDENT'
+      )
+      const user2 = await createUser(
+        'newuser2@boolean.org',
+        'password2',
+        'STUDENT'
+      )
+
+      const token = jwt.sign(user1.id, process.env.JWT_SECRET)
+
+      let idToSearch = 1
+      while (idToSearch === user1.id || idToSearch === user2.id) {
+        idToSearch++
+      }
+
+      const response = await supertest(app)
+        .get(`/users/${idToSearch}`)
+        .set('Authorization', `Bearer ${token}`)
+
+      expect(response.status).toEqual(404)
+      expect(response.body.data.error).toEqual('User not found by that Id')
+    })
+  })
+  describe('GET users/', () => {
+    it('should get all users', async () => {
+      const user1 = await createUser(
+        'newuser@boolean.org',
+        'password',
+        'STUDENT'
+      )
+      await createUser('newuser2@boolean.org', 'password2', 'STUDENT')
+
+      const token = jwt.sign(user1.id, process.env.JWT_SECRET)
+
+      const response = await supertest(app)
+        .get(`/users`)
+        .set('Authorization', `Bearer ${token}`)
+
+      expect(response.body.status).toEqual('success')
+      expect(response.body.data.users.length).toEqual(2)
     })
   })
 })
