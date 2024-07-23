@@ -11,7 +11,7 @@ export async function validateTeacherRole(req, res, next) {
 
   if (req.user.role !== 'TEACHER') {
     return sendDataResponse(res, 403, {
-      error: ERR.UNAUTHORISED
+      error: ERR.NOT_AUTHORISED
     })
   }
 
@@ -43,8 +43,9 @@ export async function validateAuthentication(req, res, next) {
     })
   }
 
-  const decodedToken = jwt.decode(token)
-  const foundUser = await User.findById(Number(decodedToken))
+  const userId = jwt.decode(token)
+
+  const foundUser = await User.findById(Number(userId))
   delete foundUser.passwordHash
 
   req.user = foundUser
