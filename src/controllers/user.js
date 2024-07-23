@@ -1,4 +1,4 @@
-import User from '../domain/user.js'
+import User, { _findByUniqueAsATeacher } from '../domain/user.js'
 import dbClient from '../utils/dbClient.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import { validateCanModify } from '../utils/validationFunctions.js'
@@ -23,7 +23,6 @@ export const create = async (req, res) => {
 
     const createdUser = await userToCreate.save()
 
-    console.log(createdUser)
     return sendDataResponse(res, 201, createdUser)
   } catch (error) {
     console.error(ERR.UNABLE_TO_CREATE_USER, error)
@@ -36,25 +35,16 @@ export const getById = async (req, res) => {
   const { role } = req.user
 
   try {
+    let foundUser = {}
     if (role === 'TEACHER') {
-      const foundUser = await User.getByIdAsTeacher(id)
-      console.log('foundAsTeacher', foundUser)
-
-      if (!foundUser) {
-        return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
-      }
-      console.log('test10               :', foundUser)
-      return res.status(200).json({ status: 'success', data: foundUser })
-      // return sendDataResponse(res, 200, foundUser)
+      foundUser = await _findByUniqueAsATeacher(id)
     } else {
-      const foundUser = await User.findById(id, role)
-
-      if (!foundUser) {
-        return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
-      }
-      console.log('testtttttttttttttttttttttttttttttttttt')
-      return sendDataResponse(res, 200, foundUser)
+      foundUser = await User.findById(id, role)
     }
+    if (!foundUser) {
+      return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
+    }
+    return res.status(200).json({ status: 'success', data: foundUser })
   } catch (e) {
     return sendMessageResponse(res, 500, 'Unable to get user')
   }
