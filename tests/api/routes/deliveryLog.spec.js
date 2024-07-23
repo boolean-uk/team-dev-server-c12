@@ -1,5 +1,5 @@
 import supertest from 'supertest'
-import app from '../../../src/server'
+import app from '../../../src/server.js'
 import jwt from 'jsonwebtoken'
 import { createUser } from '../../helpers/createUser.js'
 import { createCohort } from '../../helpers/createCohort.js'
@@ -13,7 +13,8 @@ describe('DeliveryLog Endpoint', () => {
       const cohort = await createCohort()
 
       const request = {
-        cohort_id: 1,
+        cohort_id: cohort.id,
+        userId: teacher.id,
         lines: [{ id: 1, content: 'today in the class we covered abstraction' }]
       }
       const response = await supertest(app)
