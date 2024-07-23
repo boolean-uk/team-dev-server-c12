@@ -19,7 +19,7 @@ export async function validateTeacherRole(req, res, next) {
 }
 
 export async function validateAuthentication(req, res, next) {
-  const header = req.header('authorization')
+  const header = req.header('Authorization')
 
   if (!header) {
     return sendDataResponse(res, 401, {
@@ -43,8 +43,9 @@ export async function validateAuthentication(req, res, next) {
     })
   }
 
-  const decodedToken = jwt.decode(token)
-  const foundUser = await User.findById(decodedToken.userId)
+  const userId = jwt.decode(token)
+
+  const foundUser = await User.findById(Number(userId))
   delete foundUser.passwordHash
 
   req.user = foundUser
