@@ -16,15 +16,17 @@ enum UserRole {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  email        String        @unique
-  password     String
-  role         UserRole      @default(STUDENT)
-  profile      Profile?
-  cohortId     Int?
-  cohort       Cohort?       @relation(fields: [cohortId], references: [id])
-  posts        Post[]
-  deliveryLogs DeliveryLog[]
+  id            Int           @id @default(autoincrement())
+  email         String        @unique
+  password      String
+  role          UserRole      @default(STUDENT)
+  profile       Profile?
+  cohortId      Int?
+  cohort        Cohort?       @relation(fields: [cohortId], references: [id])
+  posts         Post[]
+  deliveryLogs  DeliveryLog[]
+  notesCreated  Note[]        @relation("TeacherNotes")
+  notesReceived Note[]        @relation("StudentNotes")
 }
 
 model Profile {
@@ -55,7 +57,7 @@ model Post {
   userId    Int
   user      User      @relation(fields: [userId], references: [id])
   createdAt DateTime  @default(now())
-  updatedAt DateTime?  @updatedAt
+  updatedAt DateTime? @updatedAt
 }
 
 model DeliveryLog {
@@ -73,4 +75,15 @@ model DeliveryLogLine {
   content String
   logId   Int
   log     DeliveryLog @relation(fields: [logId], references: [id])
+}
+
+model Note {
+  id        Int       @id @default(autoincrement())
+  content   String
+  teacherId Int
+  teacher   User      @relation("TeacherNotes", fields: [teacherId], references: [id])
+  studentId Int
+  student   User      @relation("StudentNotes", fields: [studentId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }

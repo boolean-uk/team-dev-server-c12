@@ -6,6 +6,10 @@ import ERR from '../utils/errors.js'
 export const create = async (req, res) => {
   const { startDate, endDate } = req.body
 
+  if (!startDate || !endDate) {
+    return sendMessageResponse(res, 400, { error: ERR.DATE_REQUIRED })
+  }
+
   try {
     const { parsedStartDate, parsedEndDate } = validation.dateValidation(
       startDate,

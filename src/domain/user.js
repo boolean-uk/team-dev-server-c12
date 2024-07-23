@@ -181,6 +181,14 @@ export default class User {
     return foundUsers.map((user) => User.fromDb(user))
   }
 
+  static async deleteUserByIdDb(id) {
+    return await dbClient.user.delete({
+      where: {
+        id: id
+      }
+    })
+  }
+
   static async updateUser(id, json) {
     const {
       email,

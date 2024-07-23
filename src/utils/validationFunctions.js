@@ -21,9 +21,11 @@ export function register(email, password) {
 const parseAndValidateDate = (dateString) => {
   const [year, month, day] = dateString.split('/').map(Number)
   const date = new Date(Date.UTC(year, month - 1, day))
-  return date.toISOString().startsWith(dateString.replace(/\//g, '-'))
-    ? date
-    : null
+  if (!date.toISOString() && !date.startsWith(dateString.replace(/\//g, '-'))) {
+    return null
+  } else {
+    return date
+  }
 }
 export function dateValidation(startDate, endDate) {
   if (!startDate || !endDate) {
@@ -39,4 +41,16 @@ export function dateValidation(startDate, endDate) {
     throw Error(ERR.DATE_FORMATTING)
   }
   return { parsedStartDate, parsedEndDate }
+}
+
+export function validateCanModify(req) {
+  const { role, id } = req.user
+  const targetUserId = Number(req.params.id)
+  const isUser = id === targetUserId
+  const isTeacher = role === 'TEACHER'
+
+  if (!isTeacher && !isUser) {
+    return false
+  }
+  return true
 }
