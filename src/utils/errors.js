@@ -21,5 +21,6 @@ export default {
   MISSING_AUTH_HEADER: 'No authorisation header',
   TOKEN_FAILED: 'Missing or invalid token',
   INTERNAL_ERROR: 'The server was unable to complete this request',
-  MISSING_CONTENT: 'The content is missing from the request body'
+  MISSING_CONTENT: 'The content is missing from the request body',
+  UNABLE_TO_GET_USER: 'Unable to get user'
 }

@@ -36,7 +36,8 @@ export const getById = async (req, res) => {
 
   try {
     let foundUser = {}
-    if (role === 'TEACHER') {
+    const isTeacher = 'TEACHER'
+    if (role === isTeacher) {
       foundUser = await findByUniqueAsATeacher(id)
     } else {
       foundUser = await User.findById(id, role)
@@ -46,7 +47,7 @@ export const getById = async (req, res) => {
     }
     return res.status(200).json({ status: 'success', data: foundUser })
   } catch (e) {
-    return sendMessageResponse(res, 500, 'Unable to get user')
+    return sendMessageResponse(res, 500, { error: ERR.UNABLE_TO_GET_USER })
   }
 }
 
