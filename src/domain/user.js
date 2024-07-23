@@ -239,8 +239,23 @@ async function findByUniqueAsATeacher(id) {
     where: {
       id: id
     },
-    include: {
-      profile: true,
+    select: {
+      id: true,
+      email: true,
+      role: true,
+      cohortId: true,
+      profile: {
+        select: {
+          id: true,
+          userId: true,
+          firstName: true,
+          lastName: true,
+          username: true,
+          mobile: true,
+          bio: true,
+          githubUsername: true
+        }
+      },
       notesReceived: {
         select: {
           id: true,
