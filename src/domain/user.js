@@ -129,6 +129,7 @@ export default class User {
   }
 
   static async findByEmail(email) {
+    console.log('user find by email called')
     return User._findByUnique('email', email)
   }
 
@@ -145,6 +146,7 @@ export default class User {
   }
 
   static async _findByUnique(key, value) {
+    console.log('find by unique method called')
     const foundUser = await dbClient.user.findUnique({
       where: {
         [key]: value

@@ -9,12 +9,15 @@
     "dev": "nodemon src/index.js",
     "db-reset": "prisma migrate reset",
     "test:migration": "node tests/testDBMigrations.js",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests"
   },
   "jest": {
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
-    }
+    },
+    "setupFilesAfterEnv": [
+      "./tests/setupTests.js"
+    ]
   },
   "prisma": {
     "seed": "node prisma/seed.js"
