@@ -81,7 +81,8 @@ describe('Users Endpoint', () => {
         .get(`/users/${user.id}`)
         .set('Authorization', `Bearer ${token}`)
 
-        console.log(response)
+      expect(response.status).toEqual(200)
+      console.log(user, response.body)
     })
   })
 })
