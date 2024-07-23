@@ -15,11 +15,12 @@ describe('Cohort Endpoint', () => {
       const request = {}
       const response = await supertest(app)
         .post('/cohorts')
-        .auth(teacherToken, { type: 'bearer' })
+        .auth(teacherToken, { type: 'Bearer' })
         .send(request)
 
       expect(response.status).toEqual(201)
       expect(response.body.id).not.toEqual(undefined)
+      expect(response.body.id).toEqual(3)
     })
   })
 })
