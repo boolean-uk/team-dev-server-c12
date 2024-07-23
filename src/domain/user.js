@@ -234,7 +234,7 @@ export default class User {
   }
 }
 
-async function _findByUniqueAsATeacher(id) {
+async function findByUniqueAsATeacher(id) {
   const foundUser = await dbClient.user.findUnique({
     where: {
       id: id
@@ -258,4 +258,4 @@ async function _findByUniqueAsATeacher(id) {
   return null
 }
 
-export { _findByUniqueAsATeacher }
+export { findByUniqueAsATeacher }

@@ -1,4 +1,4 @@
-import User, { _findByUniqueAsATeacher } from '../domain/user.js'
+import User, { findByUniqueAsATeacher } from '../domain/user.js'
 import dbClient from '../utils/dbClient.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import { validateCanModify } from '../utils/validationFunctions.js'
@@ -37,7 +37,7 @@ export const getById = async (req, res) => {
   try {
     let foundUser = {}
     if (role === 'TEACHER') {
-      foundUser = await _findByUniqueAsATeacher(id)
+      foundUser = await findByUniqueAsATeacher(id)
     } else {
       foundUser = await User.findById(id, role)
     }
