@@ -1,4 +1,4 @@
-import User, { findByUniqueAsATeacher } from '../domain/user.js'
+import User from '../domain/user.js'
 import dbClient from '../utils/dbClient.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import { validateCanModify } from '../utils/validationFunctions.js'
@@ -35,22 +35,18 @@ export const getById = async (req, res) => {
   const { role } = req.user
 
   try {
-    let foundUser = {}
-    const isTeacher = role === 'TEACHER'
-    if (isTeacher) {
-      foundUser = await findByUniqueAsATeacher(id)
-    } else {
-      foundUser = await User.findById(id, role)
-    }
+    const foundUser = await User.findById(id, role)
+
     if (!foundUser) {
-      return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
+      return sendDataResponse(res, 404, {
+        error: ERR.USER_NOT_FOUND
+      })
     }
     return sendDataResponse(res, 201, { user: foundUser })
   } catch (e) {
     return sendMessageResponse(res, 500, { error: ERR.UNABLE_TO_GET_USER })
   }
 }
-
 export const getAll = async (req, res) => {
   // eslint-disable-next-line camelcase
   const { first_name: firstName } = req.query

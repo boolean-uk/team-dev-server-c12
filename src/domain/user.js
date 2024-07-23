@@ -138,7 +138,11 @@ export default class User {
     return User._findByUnique('email', email)
   }
 
-  static async findById(id) {
+  static async findById(id, role) {
+    const isTeacher = role === 'TEACHER'
+    if (isTeacher) {
+      return _findByUniqueAsATeacher(id, role)
+    }
     return User._findByUnique('id', id)
   }
 
@@ -234,7 +238,7 @@ export default class User {
   }
 }
 
-async function findByUniqueAsATeacher(id) {
+async function _findByUniqueAsATeacher(id) {
   const foundUser = await dbClient.user.findUnique({
     where: {
       id: id
@@ -272,5 +276,3 @@ async function findByUniqueAsATeacher(id) {
   }
   return null
 }
-
-export { findByUniqueAsATeacher }
