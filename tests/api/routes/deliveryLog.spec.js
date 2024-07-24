@@ -9,7 +9,7 @@ describe('DeliveryLog Endpoint', () => {
     it('will allow teachers to create delivery logs for each cohort', async () => {
       const uniqueEmail = `testuser${Date.now()}@gmail.com`
       const teacher = await createUser(uniqueEmail, 'password', 'TEACHER')
-      const token = jwt.sign(teacher.id, process.env.JWT_SECRET)
+      const token = jwt.sign({ userId: teacher.id }, process.env.JWT_SECRET)
       const cohort = await createCohort()
 
       const request = {
@@ -32,7 +32,7 @@ describe('DeliveryLog Endpoint', () => {
     it('will send a status code 400 if the cohortId or lines is missing from the request body', async () => {
       const uniqueEmail = `testuser${Date.now()}@gmail.com`
       const teacher = await createUser(uniqueEmail, 'password', 'TEACHER')
-      const token = jwt.sign(teacher.id, process.env.JWT_SECRET)
+      const token = jwt.sign({ userId: teacher.id }, process.env.JWT_SECRET)
 
       const request = {}
       const response = await supertest(app)
@@ -49,13 +49,19 @@ describe('DeliveryLog Endpoint', () => {
     it('will send a status code 404 if the the cohort does not exist', async () => {
       const uniqueEmail = `testuser${Date.now()}@gmail.com`
       const teacher = await createUser(uniqueEmail, 'password', 'TEACHER')
-      const token = jwt.sign(teacher.id, process.env.JWT_SECRET)
+      const token = jwt.sign({ userId: teacher.id }, process.env.JWT_SECRET)
       const cohort = await createCohort()
 
+      let cohortId = 1
+      while (cohort.id === cohortId) {
+        cohortId++
+      }
+
       const request = {
-        cohort_id: 100,
+        cohort_id: cohortId,
         lines: 'today in the class we covered abstraction'
       }
+
       const response = await supertest(app)
         .post('/logs')
         .set('Authorization', `Bearer ${token}`)
