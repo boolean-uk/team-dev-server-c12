@@ -26,18 +26,16 @@ export const createDeliveryLog = async (req, res) => {
     }))
 
     return sendDataResponse(res, 201, {
-      data: {
-        log: {
-          id: log.id,
-          cohortId: cohortId,
-          date: log.date,
-          author: {
-            id: log.user.id,
-            firstName,
-            lastName
-          },
-          lines: logLines
-        }
+      log: {
+        id: log.id,
+        cohortId: cohortId,
+        date: log.date,
+        author: {
+          id: log.user.id,
+          firstName,
+          lastName
+        },
+        lines: logLines
       }
     })
   } catch (error) {

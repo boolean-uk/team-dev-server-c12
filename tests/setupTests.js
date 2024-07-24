@@ -2,8 +2,9 @@ import dbClient from '../src/utils/dbClient.js'
 
 const deleteTables = () => {
   const deleteTables = [
-    dbClient.cohort.deleteMany(),
+    dbClient.deliveryLogLine.deleteMany(),
     dbClient.deliveryLog.deleteMany(),
+    dbClient.cohort.deleteMany(),
     dbClient.post.deleteMany(),
     dbClient.profile.deleteMany(),
     dbClient.user.deleteMany()

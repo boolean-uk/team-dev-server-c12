@@ -1,4 +1,4 @@
-import dbClient from '../../src/utils/dbClient'
+import dbClient from '../../src/utils/dbClient.js'
 import bcrypt from 'bcrypt'
 
 export const createUser = async (email, password, role) => {
@@ -7,7 +7,13 @@ export const createUser = async (email, password, role) => {
     data: {
       email,
       password,
-      role
+      role,
+      profile: {
+        create: {
+          firstName: 'Jimmy',
+          lastName: 'Boab'
+        }
+      }
     }
   })
 }
