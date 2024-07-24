@@ -32,24 +32,24 @@ export const create = async (req, res) => {
 
 export const getById = async (req, res) => {
   const id = parseInt(req.params.id)
+  const { role } = req.user
 
   try {
-    const foundUser = await User.findById(id)
+    const foundUser = await User.findById(id, role)
 
     if (!foundUser) {
-      return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
+      return sendDataResponse(res, 404, {
+        error: ERR.USER_NOT_FOUND
+      })
     }
-
-    return sendDataResponse(res, 200, foundUser)
+    return sendDataResponse(res, 201, { user: foundUser })
   } catch (e) {
-    return sendMessageResponse(res, 500, 'Unable to get user')
+    return sendMessageResponse(res, 500, { error: ERR.UNABLE_TO_GET_USER })
   }
 }
-
 export const getAll = async (req, res) => {
   // eslint-disable-next-line camelcase
   const { first_name: firstName } = req.query
-
   let foundUsers
 
   if (firstName) {

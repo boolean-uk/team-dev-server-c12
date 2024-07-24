@@ -61,7 +61,10 @@ export default class User {
     bio,
     githubUsername,
     passwordHash = null,
-    role
+    role,
+    noteContent,
+    noteTeacherId,
+    noteStudentId
   ) {
     this.id = id
     this.cohortId = cohortId
@@ -72,6 +75,9 @@ export default class User {
     this.githubUsername = githubUsername
     this.passwordHash = passwordHash
     this.role = role
+    this.noteContent = noteContent
+    this.noteTeacherId = noteTeacherId
+    this.noteStudentId = noteStudentId
   }
 
   toJSON() {
@@ -132,7 +138,11 @@ export default class User {
     return User._findByUnique('email', email)
   }
 
-  static async findById(id) {
+  static async findById(id, role) {
+    const isTeacher = role === 'TEACHER'
+    if (isTeacher) {
+      return _findByUniqueAsATeacher(id, role)
+    }
     return User._findByUnique('id', id)
   }
 
@@ -226,4 +236,43 @@ export default class User {
     })
     return updatedUser
   }
+}
+
+async function _findByUniqueAsATeacher(id) {
+  const foundUser = await dbClient.user.findUnique({
+    where: {
+      id: id
+    },
+    select: {
+      id: true,
+      email: true,
+      role: true,
+      cohortId: true,
+      profile: {
+        select: {
+          id: true,
+          userId: true,
+          firstName: true,
+          lastName: true,
+          username: true,
+          mobile: true,
+          bio: true,
+          githubUsername: true
+        }
+      },
+      notesReceived: {
+        select: {
+          id: true,
+          content: true,
+          teacherId: true,
+          studentId: true
+        }
+      }
+    }
+  })
+
+  if (foundUser) {
+    return foundUser
+  }
+  return null
 }
