@@ -83,8 +83,8 @@ describe('Users Endpoint', () => {
         .get(`/users/${user.id}`)
         .set('Authorization', `Bearer ${token}`)
 
-      expect(response.status).toEqual(200)
-      expect(response.body.data.user.email).toEqual(user.email)
+      expect(response.status).toEqual(201)
+      expect(response.body.data.user.user.email).toEqual(user.email)
     })
     it('should throw an error if no user exists with that ID', async () => {
       const user1 = await createUser(
