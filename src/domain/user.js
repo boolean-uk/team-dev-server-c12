@@ -227,36 +227,36 @@ export default class User {
     return updatedUser
   }
 
-  static async searchUserByName(query) {
-    const splitQuery = query.split(' ')
+  static async searchUserByName(name) {
+    const splitName = name.split(' ')
 
     const searchedUser = await dbClient.user.findMany({
       where: {
         OR: [
           {
             firstName: {
-              contains: query,
+              contains: name,
               mode: 'insensitive'
             }
           },
           {
             lastName: {
-              contains: query,
+              contains: name,
               mode: 'insensitive'
             }
           },
           {
             AND:
-              splitQuery.length > 1
+              splitName.length > 1
                 ? [
                     {
                       firstName: {
-                        contains: splitQuery[0],
+                        contains: splitName[0],
                         mode: 'insensitive'
                       }
                     },
                     {
-                      lastName: { contains: splitQuery[1], mode: 'insensitive' }
+                      lastName: { contains: splitName[1], mode: 'insensitive' }
                     }
                   ]
                 : []

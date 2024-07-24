@@ -1,4 +1,9 @@
-import { emailRegex, passwordRegex, dateRegex } from './regexMatchers.js'
+import {
+  emailRegex,
+  passwordRegex,
+  dateRegex,
+  nameRegex
+} from './regexMatchers.js'
 import ERR from './errors.js'
 
 export function register(email, password) {
@@ -52,5 +57,10 @@ export function validateCanModify(req) {
   if (!isTeacher && !isUser) {
     return false
   }
+  return true
+}
+
+export function isValidName(name) {
+  nameRegex.test(name)
   return true
 }

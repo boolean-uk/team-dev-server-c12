@@ -24,5 +24,9 @@ export default {
   TOKEN_FAILED: 'Missing or invalid token',
   INTERNAL_ERROR: 'The server was unable to complete this request',
   MISSING_CONTENT: 'The content is missing from the request body',
-  INVALID_NOTE_CONTENT: 'Some text must be provided in order to create a note'
+  INVALID_NOTE_CONTENT: 'Some text must be provided in order to create a note',
+  UNABLE_TO_CREATE_COHORT: 'Unable to create a new cohort.',
+  NAME_REQUIRED: 'A name must be provided.',
+  NAME_FORMATTING: 'Names can only contain letters',
+  UNABLE_TO_SEARCH_USER: 'Unable to search for users'
 }

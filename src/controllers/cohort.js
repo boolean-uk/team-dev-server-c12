@@ -23,6 +23,6 @@ export const create = async (req, res) => {
     if (e.message === ERR.DATE_REQUIRED || e.message === ERR.DATE_FORMATTING) {
       return sendMessageResponse(res, 400, { error: e.message })
     }
-    return sendMessageResponse(res, 500, 'unable to create cohort!')
+    return sendMessageResponse(res, 500, ERR.UNABLE_TO_CREATE_COHORT)
   }
 }
