@@ -300,5 +300,6 @@ async function _findByUnique(key, value) {
 
   if (foundUser) {
     return foundUser
-  } else return null
+  }
+  return null
 }
