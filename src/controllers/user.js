@@ -1,7 +1,7 @@
 import User from '../domain/user.js'
 import dbClient from '../utils/dbClient.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
-import { validateCanModify, isValidName } from '../utils/validationFunctions.js'
+import { validateCanModify } from '../utils/validationFunctions.js'
 import * as validation from '../utils/validationFunctions.js'
 import ERR from '../utils/errors.js'
 
@@ -120,29 +120,5 @@ export const deleteUserById = async (req, res) => {
       error
     )
     return sendDataResponse(res, 500, { error: ERR.DELETE_GENERIC_ERROR })
-  }
-}
-
-export const searchUserByName = async (req, res) => {
-  const { name } = req.body
-
-  if (!name) {
-    return sendMessageResponse(res, 400, ERR.NAME_REQUIRED)
-  }
-
-  if (!isValidName(name)) {
-    return sendMessageResponse(res, 400, ERR.NAME_FORMATTING)
-  }
-
-  try {
-    const users = await User.searchUserByName(name)
-
-    if (users.length === 0) {
-      return sendMessageResponse(res, 404, ERR.NAME_USER_NOT_FOUND)
-    }
-    return sendDataResponse({ users })
-  } catch (e) {
-    console.error('Error searching for users:', e)
-    return sendMessageResponse(res, 500, ERR.UNABLE_TO_SEARCH_USER)
   }
 }
