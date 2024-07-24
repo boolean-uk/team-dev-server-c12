@@ -123,7 +123,7 @@ export const deleteUserById = async (req, res) => {
   }
 }
 
-export const getUserByName = async (req, res) => {
+export const searchUserByName = async (req, res) => {
   const { name } = req.body
 
   if (!name) {
