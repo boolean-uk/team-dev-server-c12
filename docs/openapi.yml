@@ -361,7 +361,6 @@ paths:
                     properties:
                       cohort:
                         properties:
-                          id:
                             $ref: '#/components/schemas/Cohort'
         400:
           description: fail

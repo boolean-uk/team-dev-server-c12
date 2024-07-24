@@ -226,4 +226,52 @@ export default class User {
     })
     return updatedUser
   }
+
+  static async searchUserByName(query) {
+    const splitQuery = query.split(' ')
+
+    const searchedUser = await dbClient.user.findMany({
+      where: {
+        OR: [
+          {
+            firstName: {
+              contains: query,
+              mode: 'insensitive'
+            }
+          },
+          {
+            lastName: {
+              contains: query,
+              mode: 'insensitive'
+            }
+          },
+          {
+            AND:
+              splitQuery.length > 1
+                ? [
+                    {
+                      firstName: {
+                        contains: splitQuery[0],
+                        mode: 'insensitive'
+                      }
+                    },
+                    {
+                      lastName: { contains: splitQuery[1], mode: 'insensitive' }
+                    }
+                  ]
+                : []
+          }
+        ]
+      },
+      include: {
+        profile: true,
+        cohort: true,
+        posts: true,
+        deliveryLogs: true,
+        notesCreated: true,
+        notesReceived: true
+      }
+    })
+    return searchedUser
+  }
 }

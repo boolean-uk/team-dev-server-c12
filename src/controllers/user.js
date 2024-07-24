@@ -122,3 +122,7 @@ export const deleteUserById = async (req, res) => {
     return sendDataResponse(res, 500, { error: ERR.DELETE_GENERIC_ERROR })
   }
 }
+
+export const getUserByName = async (req, res) => {
+  const { query } = req.body
+}
