@@ -9,12 +9,12 @@ describe('DeliveryLog Endpoint', () => {
     it('will allow teachers to create delivery logs for each cohort', async () => {
       const uniqueEmail = `testuser${Date.now()}@gmail.com`
       const teacher = await createUser(uniqueEmail, 'password', 'TEACHER')
+      console.log(teacher)
       const token = jwt.sign({ userId: teacher.id }, process.env.JWT_SECRET)
       const cohort = await createCohort()
 
       const request = {
         cohort_id: cohort.id,
-        userId: teacher.id,
         lines: [{ id: 1, content: 'today in the class we covered abstraction' }]
       }
       const response = await supertest(app)

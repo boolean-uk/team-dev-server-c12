@@ -14,8 +14,7 @@
     "test-cohorts": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/cohort.spec.js",
     "test-logs": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/deliveryLog.spec.js",
     "test-users": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/user.spec.js",
-    "test-auth": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/auth.spec.js",
-    "test-delivery-log": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/deliveryLog.spec.js"
+    "test-auth": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/auth.spec.js"
   },
   "jest": {
     "transform": {
