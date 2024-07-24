@@ -135,8 +135,12 @@ export const searchUserByName = async (req, res) => {
   }
 
   try {
-    const searchedUser = await User.searchUserByName(name)
-    return sendDataResponse({ user: searchedUser })
+    const users = await User.searchUserByName(name)
+
+    if (users.length === 0) {
+      return sendMessageResponse(res, 404, ERR.NAME_USER_NOT_FOUND)
+    }
+    return sendDataResponse({ users })
   } catch (e) {
     console.error('Error searching for users:', e)
     return sendMessageResponse(res, 500, ERR.UNABLE_TO_SEARCH_USER)

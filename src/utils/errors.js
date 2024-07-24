@@ -28,5 +28,6 @@ export default {
   UNABLE_TO_CREATE_COHORT: 'Unable to create a new cohort.',
   NAME_REQUIRED: 'A name must be provided.',
   NAME_FORMATTING: 'Names can only contain letters',
-  UNABLE_TO_SEARCH_USER: 'Unable to search for users'
+  UNABLE_TO_SEARCH_USER: 'Unable to search for users',
+  NAME_USER_NOT_FOUND: 'user not found by that name'
 }
