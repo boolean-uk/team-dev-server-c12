@@ -141,9 +141,9 @@ export default class User {
   static async findById(id, role) {
     const isTeacher = role === 'TEACHER'
     if (isTeacher) {
-      return _findByUniqueAsATeacher(id, role)
+      return _findByUniqueAsATeacher('id', id)
     }
-    return User._findByUnique('id', id)
+    return _findByUnique('id', id)
   }
 
   static async findManyByFirstName(firstName) {
@@ -238,10 +238,10 @@ export default class User {
   }
 }
 
-async function _findByUniqueAsATeacher(id) {
+async function _findByUniqueAsATeacher(key, value) {
   const foundUser = await dbClient.user.findUnique({
     where: {
-      id: id
+      [key]: value
     },
     select: {
       id: true,
@@ -275,4 +275,30 @@ async function _findByUniqueAsATeacher(id) {
     return foundUser
   }
   return null
+}
+
+async function _findByUnique(key, value) {
+  const foundUser = dbClient.user.findUnique({
+    where: {
+      [key]: value
+    },
+    select: {
+      id: true,
+      cohortId: true,
+      role: true,
+      email: true,
+      profile: {
+        select: {
+          firstName: true,
+          lastName: true,
+          bio: true,
+          githubUsername: true
+        }
+      }
+    }
+  })
+
+  if (foundUser) {
+    return foundUser
+  } else return null
 }
