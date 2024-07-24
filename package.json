@@ -7,7 +7,21 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "db-reset": "prisma migrate reset"
+    "db-reset": "prisma migrate reset",
+    "test:migration": "node tests/testDBMigrations.js",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests",
+    "test-login": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/login.spec.js",
+    "test-cohorts": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/cohort.spec.js",
+    "test-logs": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/deliveryLog.spec.js",
+    "test-users": "node --experimental-vm-modules node_modules/.bin/jest -- -i ./tests/api/routes/user.spec.js"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "setupFilesAfterEnv": [
+      "./tests/setupTests.js"
+    ]
   },
   "prisma": {
     "seed": "node prisma/seed.js"
@@ -25,6 +39,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.24.9",
+    "@babel/preset-env": "^7.24.8",
     "@boolean-uk/boolean-prettier-config": "^1.0.2",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.5.0",
