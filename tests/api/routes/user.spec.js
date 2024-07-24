@@ -74,7 +74,10 @@ describe('Users Endpoint', () => {
         'STUDENT'
       )
 
-      const token = jwt.sign(user.id, process.env.JWT_SECRET)
+      const token = jwt.sign(
+        { userId: user.id, email: user.email },
+        process.env.JWT_SECRET
+      )
 
       const response = await supertest(app)
         .get(`/users/${user.id}`)
@@ -95,7 +98,10 @@ describe('Users Endpoint', () => {
         'STUDENT'
       )
 
-      const token = jwt.sign(user1.id, process.env.JWT_SECRET)
+      const token = jwt.sign(
+        { userId: user1.id, email: user1.email },
+        process.env.JWT_SECRET
+      )
 
       let idToSearch = 1
       while (idToSearch === user1.id || idToSearch === user2.id) {
@@ -119,7 +125,10 @@ describe('Users Endpoint', () => {
       )
       await createUser('newuser2@boolean.org', 'password2', 'STUDENT')
 
-      const token = jwt.sign(user1.id, process.env.JWT_SECRET)
+      const token = jwt.sign(
+        { userId: user1.id, email: user1.email },
+        process.env.JWT_SECRET
+      )
 
       const response = await supertest(app)
         .get(`/users`)

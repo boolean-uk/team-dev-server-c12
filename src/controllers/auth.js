@@ -7,7 +7,6 @@ import ERR from '../utils/errors.js'
 
 export const login = async (req, res) => {
   const { email, password } = req.body
-
   try {
     const foundUser = await User.findByEmail(email)
     const areCredentialsValid = await validateCredentials(password, foundUser)
