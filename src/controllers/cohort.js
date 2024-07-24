@@ -2,12 +2,16 @@ import { createCohort } from '../domain/cohort.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import * as validation from '../utils/validationFunctions.js'
 import ERR from '../utils/errors.js'
+import { dateRegex } from '../utils/regexMatchers.js'
 
 export const create = async (req, res) => {
   const { startDate, endDate } = req.body
 
   if (!startDate || !endDate) {
     return sendMessageResponse(res, 400, { error: ERR.DATE_REQUIRED })
+  }
+  if (!dateRegex.test(startDate) || !dateRegex.test(endDate)) {
+    return sendMessageResponse(res, 400, { error: ERR.DATE_FORMATTING })
   }
 
   try {
