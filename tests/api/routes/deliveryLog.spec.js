@@ -7,9 +7,8 @@ import { createCohort } from '../../helpers/createCohort.js'
 describe('DeliveryLog Endpoint', () => {
   describe('POST/logs', () => {
     it('will allow teachers to create delivery logs for each cohort', async () => {
-      const uniqueEmail = `testuser${Date.now()}@gmail.com`
+      const uniqueEmail = `testuser@gmail.com`
       const teacher = await createUser(uniqueEmail, 'password', 'TEACHER')
-      console.log(teacher)
       const token = jwt.sign({ userId: teacher.id }, process.env.JWT_SECRET)
       const cohort = await createCohort()
 
@@ -30,7 +29,7 @@ describe('DeliveryLog Endpoint', () => {
       )
     })
     it('will send a status code 400 if the cohortId or lines is missing from the request body', async () => {
-      const uniqueEmail = `testuser${Date.now()}@gmail.com`
+      const uniqueEmail = `testuser@gmail.com`
       const teacher = await createUser(uniqueEmail, 'password', 'TEACHER')
       const token = jwt.sign({ userId: teacher.id }, process.env.JWT_SECRET)
 
@@ -47,7 +46,7 @@ describe('DeliveryLog Endpoint', () => {
       )
     })
     it('will send a status code 404 if the the cohort does not exist', async () => {
-      const uniqueEmail = `testuser${Date.now()}@gmail.com`
+      const uniqueEmail = `testuser@gmail.com`
       const teacher = await createUser(uniqueEmail, 'password', 'TEACHER')
       const token = jwt.sign({ userId: teacher.id }, process.env.JWT_SECRET)
       const cohort = await createCohort()
