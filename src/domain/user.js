@@ -141,9 +141,9 @@ export default class User {
   static async findById(id, role) {
     const isTeacher = role === 'TEACHER'
     if (isTeacher) {
-      return _findByUniqueAsATeacher('id', id)
+      return _findByUniqueAsATeacher(id, role)
     }
-    return _findByUnique('id', id)
+    return User._findByUnique('id', id)
   }
 
   static async findManyByFirstName(firstName) {
@@ -236,12 +236,71 @@ export default class User {
     })
     return updatedUser
   }
+
+  static async searchUserByName(name) {
+    const splitName = name.split(' ')
+
+    const searchedUser = await dbClient.user.findMany({
+      where: {
+        OR: [
+          {
+            profile: {
+              firstName: {
+                contains: name,
+                mode: 'insensitive'
+              }
+            }
+          },
+          {
+            profile: {
+              lastName: {
+                contains: name,
+                mode: 'insensitive'
+              }
+            }
+          },
+          {
+            AND:
+              splitName.length > 1
+                ? [
+                    {
+                      profile: {
+                        firstName: {
+                          contains: splitName[0],
+                          mode: 'insensitive'
+                        }
+                      }
+                    },
+                    {
+                      profile: {
+                        lastName: {
+                          contains: splitName[1],
+                          mode: 'insensitive'
+                        }
+                      }
+                    }
+                  ]
+                : []
+          }
+        ]
+      },
+      include: {
+        profile: true,
+        cohort: true,
+        posts: false,
+        deliveryLogs: false,
+        notesCreated: false,
+        notesReceived: false
+      }
+    })
+    return searchedUser.map((user) => User.fromDb(user))
+  }
 }
 
-async function _findByUniqueAsATeacher(key, value) {
+async function _findByUniqueAsATeacher(id) {
   const foundUser = await dbClient.user.findUnique({
     where: {
-      [key]: value
+      id: id
     },
     select: {
       id: true,
@@ -266,33 +325,6 @@ async function _findByUniqueAsATeacher(key, value) {
           content: true,
           teacherId: true,
           studentId: true
-        }
-      }
-    }
-  })
-
-  if (foundUser) {
-    return foundUser
-  }
-  return null
-}
-
-async function _findByUnique(key, value) {
-  const foundUser = dbClient.user.findUnique({
-    where: {
-      [key]: value
-    },
-    select: {
-      id: true,
-      cohortId: true,
-      role: true,
-      email: true,
-      profile: {
-        select: {
-          firstName: true,
-          lastName: true,
-          bio: true,
-          githubUsername: true
         }
       }
     }
