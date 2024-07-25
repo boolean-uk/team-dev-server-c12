@@ -8,7 +8,7 @@ describe('Cohort Endpoint', () => {
     it('will allow a user with the role of teacher to create a new cohort', async () => {
       const uniqueEmail = `testuser${Date.now()}@gmail.com`
       const teacher = await createUser(uniqueEmail, 'password', 'TEACHER')
-      const token = jwt.sign(teacher.id, process.env.JWT_SECRET)
+      const token = jwt.sign({ userId: teacher.id }, process.env.JWT_SECRET)
       const request = {}
       const response = await supertest(app)
         .post('/cohorts')

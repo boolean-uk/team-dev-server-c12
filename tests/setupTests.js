@@ -2,12 +2,13 @@ import dbClient from '../src/utils/dbClient.js'
 
 const deleteTables = () => {
   const deleteTables = [
+    dbClient.user.deleteMany(),
     dbClient.deliveryLogLine.deleteMany(),
     dbClient.deliveryLog.deleteMany(),
     dbClient.cohort.deleteMany(),
     dbClient.post.deleteMany(),
-    dbClient.profile.deleteMany(),
-    dbClient.user.deleteMany()
+    dbClient.note.deleteMany(),
+    dbClient.profile.deleteMany()
   ]
   return dbClient.$transaction(deleteTables)
 }
@@ -21,5 +22,5 @@ global.afterEach(() => {
 })
 
 global.afterAll(() => {
-  return dbClient.$disconnect
+  return dbClient.$disconnect()
 })

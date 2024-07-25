@@ -22,7 +22,7 @@ model User {
   role          UserRole      @default(STUDENT)
   profile       Profile?
   cohortId      Int?
-  cohort        Cohort?       @relation(fields: [cohortId], references: [id])
+  cohort        Cohort?       @relation(fields: [cohortId], references: [id], onDelete: Cascade)
   posts         Post[]
   deliveryLogs  DeliveryLog[]
   notesCreated  Note[]        @relation("TeacherNotes")
@@ -32,7 +32,7 @@ model User {
 model Profile {
   id             Int     @id @default(autoincrement())
   userId         Int     @unique
-  user           User    @relation(fields: [userId], references: [id])
+  user           User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   firstName      String?
   lastName       String?
   username       String?
@@ -51,7 +51,7 @@ model Post {
   id        Int       @id @default(autoincrement())
   content   String
   userId    Int
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 }
@@ -60,9 +60,9 @@ model DeliveryLog {
   id       Int               @id @default(autoincrement())
   date     DateTime          @default(now())
   userId   Int
-  user     User              @relation(fields: [userId], references: [id])
+  user     User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   cohortId Int
-  cohort   Cohort            @relation(fields: [cohortId], references: [id])
+  cohort   Cohort            @relation(fields: [cohortId], references: [id], onDelete: Cascade)
   lines    DeliveryLogLine[]
 }
 
@@ -70,16 +70,16 @@ model DeliveryLogLine {
   id      Int         @id @default(autoincrement())
   content String
   logId   Int
-  log     DeliveryLog @relation(fields: [logId], references: [id])
+  log     DeliveryLog @relation(fields: [logId], references: [id], onDelete: Cascade)
 }
 
 model Note {
   id        Int       @id @default(autoincrement())
   content   String
   teacherId Int
-  teacher   User      @relation("TeacherNotes", fields: [teacherId], references: [id])
+  teacher   User      @relation("TeacherNotes", fields: [teacherId], references: [id], onDelete: Cascade)
   studentId Int
-  student   User      @relation("StudentNotes", fields: [studentId], references: [id])
+  student   User      @relation("StudentNotes", fields: [studentId], references: [id], onDelete: Cascade)
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 }

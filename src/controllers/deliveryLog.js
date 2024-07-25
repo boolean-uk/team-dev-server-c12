@@ -18,6 +18,7 @@ export const createDeliveryLog = async (req, res) => {
     if (!cohortExists) {
       return sendDataResponse(res, 404, { error: ERR.COHORT_NOT_FOUND })
     }
+
     const log = await createDeliveryLogDb(cohortId, req.user.id, lines)
 
     const logLines = log.lines.map((line) => ({
