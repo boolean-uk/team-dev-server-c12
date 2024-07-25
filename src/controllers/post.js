@@ -1,6 +1,7 @@
 import { getAllPostsDb, getPostByIdDb } from '../domain/post.js'
 import { sendDataResponse } from '../utils/responses.js'
 import ERR from '../utils/errors.js'
+import { generateId } from "../utils/misc.js"
 
 export const create = async (req, res) => {
   const { content } = req.body
@@ -9,7 +10,7 @@ export const create = async (req, res) => {
     return sendDataResponse(res, 400, { error: ERR.MISSING_CONTENT })
   }
 
-  return sendDataResponse(res, 201, { post: { id: 1, content } })
+  return sendDataResponse(res, 201, { post: { id: generateId(), content } })
 }
 
 export const getAll = async (req, res) => {
