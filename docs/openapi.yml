@@ -340,6 +340,12 @@ paths:
       operationId: createCohort
       security:
         - bearerAuth: []
+      requestBody:
+        description: success
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCohort'
       responses:
         201:
           description: success
@@ -351,9 +357,11 @@ paths:
                   status:
                     type: string
                   data:
+                    type: object
                     properties:
                       cohort:
-                        $ref: '#/components/schemas/Cohort'
+                        properties:
+                          $ref: '#/components/schemas/Cohort'
         400:
           description: fail
           content:
@@ -393,12 +401,22 @@ components:
       properties:
         id:
           type: integer
+        startDate:
+          type: string
+          format: string
+        endDate:
+          type: string
+          format: string
         createdAt:
           type: string
           format: string
         updatedAt:
           type: string
           format: string
+        users:
+          type: array
+        deliveryLogs:
+          type: array
 
     AllUsers:
       type: object
@@ -640,3 +658,10 @@ components:
                         type: integer
                       content:
                         type: string
+    CreateCohort:
+      type: object
+      properties:
+        startDate:
+          type: string
+        endDate:
+          type: string

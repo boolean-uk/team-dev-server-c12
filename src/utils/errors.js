@@ -16,12 +16,14 @@ export default {
     'Cohort ID AND log-lines must be provided in order to create a delivery log',
   DELIVERY_LOG_GENERIC_ERROR:
     'An error occurred while creating the delivery log.',
+  DATE_FORMATTING: 'Invalid date format. Please use yyyy/mm/dd.',
+  DATE_REQUIRED: 'Date is required',
   EMAIL_IN_USE: 'This email address is already in use',
   UNABLE_TO_CREATE_USER: 'Unable to create new user',
   MISSING_AUTH_HEADER: 'No authorisation header',
   TOKEN_FAILED: 'Missing or invalid token',
   INTERNAL_ERROR: 'The server was unable to complete this request',
   MISSING_CONTENT: 'The content is missing from the request body',
-  UNABLE_TO_GET_USER: 'Unable to get user',
-  INVALID_NOTE_CONTENT: 'Some text must be provided in order to create a note'
+  INVALID_NOTE_CONTENT: 'Some text must be provided in order to create a note',
+  UNABLE_TO_CREATE_COHORT: 'Unable to create a new cohort.'
 }

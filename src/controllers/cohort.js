@@ -1,13 +1,32 @@
 import { createCohort } from '../domain/cohort.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
+import * as validation from '../utils/validationFunctions.js'
 import ERR from '../utils/errors.js'
+import { dateRegex } from '../utils/regexMatchers.js'
 
 export const create = async (req, res) => {
+  const { startDate, endDate } = req.body
+
+  if (!startDate || !endDate) {
+    return sendMessageResponse(res, 400, { error: ERR.DATE_REQUIRED })
+  }
+  if (!dateRegex.test(startDate) || !dateRegex.test(endDate)) {
+    return sendMessageResponse(res, 400, { error: ERR.DATE_FORMATTING })
+  }
+
   try {
-    const createdCohort = await createCohort()
+    const { parsedStartDate, parsedEndDate } = validation.dateValidation(
+      startDate,
+      endDate
+    )
+    const createdCohort = await createCohort(parsedStartDate, parsedEndDate)
+
     return sendDataResponse(res, 201, createdCohort)
   } catch (e) {
-    console.error('An error occured while trying to create a cohort:', e)
-    return sendMessageResponse(res, 500, { error: ERR.INTERNAL_ERROR })
+    console.error('error creating cohort:', e)
+    if (e.message === ERR.DATE_REQUIRED || e.message === ERR.DATE_FORMATTING) {
+      return sendMessageResponse(res, 400, { error: e.message })
+    }
+    return sendMessageResponse(res, 500, ERR.UNABLE_TO_CREATE_COHORT)
   }
 }
