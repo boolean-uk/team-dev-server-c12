@@ -299,7 +299,6 @@ async function _findByUnique(key, value) {
   })
 
   function flatten(user) {
-    console.log(user)
     if (!user.profile) {
       return user
     }
