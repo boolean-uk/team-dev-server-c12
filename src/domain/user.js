@@ -278,7 +278,7 @@ async function _findByUniqueAsATeacher(key, value) {
 }
 
 async function _findByUnique(key, value) {
-  const foundUser = dbClient.user.findUnique({
+  const foundUser = await dbClient.user.findUnique({
     where: {
       [key]: value
     },
@@ -298,8 +298,15 @@ async function _findByUnique(key, value) {
     }
   })
 
+  function flatten(user) {
+    if (!user.profile) {
+      return user
+    }
+    const { profile, ...rest } = user
+    return { ...rest, ...profile }
+  }
   if (foundUser) {
-    return foundUser
+    return flatten(foundUser)
   }
   return null
 }
