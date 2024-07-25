@@ -1,7 +1,7 @@
 import { getAllPostsDb, getPostByIdDb } from '../domain/post.js'
 import { sendDataResponse } from '../utils/responses.js'
 import ERR from '../utils/errors.js'
-import { generateId } from "../utils/misc.js"
+import { generateId } from '../utils/misc.js'
 
 export const create = async (req, res) => {
   const { content } = req.body
