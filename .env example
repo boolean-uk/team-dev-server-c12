@@ -1,0 +1,4 @@
+js PORT=4000
+DATABASE_URL="postgresql://boolean_owner:TZ0rnzWdmbu8@ep-morning-cell-a24xw8zh-pooler.eu-central-1.aws.neon.tech/team-dev-sim?sslmode=require"
+JWT_SECRET="somesecurestring"
+JWT_EXPIRY="24h"
