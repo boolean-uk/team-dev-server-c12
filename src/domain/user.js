@@ -298,6 +298,11 @@ async function _findByUnique(key, value) {
     }
   })
 
+  if (foundUser) {
+    return flatten(foundUser)
+  }
+  return null
+
   function flatten(user) {
     if (!user.profile) {
       return user
@@ -306,9 +311,4 @@ async function _findByUnique(key, value) {
     const { profile, ...rest } = user
     return { ...rest, ...profile }
   }
-
-  if (foundUser) {
-    return flatten(foundUser)
-  }
-  return null
 }
