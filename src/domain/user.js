@@ -141,7 +141,7 @@ export default class User {
   static async findById(id, role) {
     const isTeacher = role === 'TEACHER'
     if (isTeacher) {
-      return _findByUniqueAsATeacher(id, role)
+      return _findByUniqueAsATeacher('id', id)
     }
     return _findByUnique('id', id)
   }
