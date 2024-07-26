@@ -1,15 +1,30 @@
 import { getAllPostsDb, getPostByIdDb } from '../domain/post.js'
 import { sendDataResponse } from '../utils/responses.js'
 import ERR from '../utils/errors.js'
+import dbClient from '../utils/dbClient.js'
 
 export const create = async (req, res) => {
   const { content } = req.body
+  const { id } = req.user
 
   if (!content) {
     return sendDataResponse(res, 400, { error: ERR.MISSING_CONTENT })
   }
 
-  return sendDataResponse(res, 201, { post: { id: 1, content } })
+  if (!id) {
+    return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
+  }
+
+  const post = await dbClient.post.create({
+    data: {
+      content: content,
+      userId: id
+    }
+  })
+
+  return res.json({
+    post
+  })
 }
 
 export const getAll = async (req, res) => {
