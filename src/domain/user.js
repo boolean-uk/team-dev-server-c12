@@ -271,8 +271,13 @@ async function _findByUniqueAsATeacher(key, value) {
     }
   })
 
+  function flatten(user) {
+    const { profile, notesReceived, ...data } = user
+    return { ...data, ...profile, notesReceived }
+  }
+
   if (foundUser) {
-    return foundUser
+    return flatten(foundUser)
   }
   return null
 }
