@@ -4,7 +4,7 @@ import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import { validateCanModify } from '../utils/validationFunctions.js'
 import * as validation from '../utils/validationFunctions.js'
 import ERR from '../utils/errors.js'
-import { nameRegex } from '../utils/regexMatchers.js'
+import { nameIsAlphaRegex } from '../utils/regexMatchers.js'
 
 export const create = async (req, res) => {
   try {
@@ -126,12 +126,11 @@ export const deleteUserById = async (req, res) => {
 
 export const searchUser = async (req, res) => {
   const { name } = req.query
-  console.log('searching user...')
   if (!name) {
     return sendMessageResponse(res, 400, ERR.NAME_REQUIRED)
   }
 
-  if (!nameRegex.test(name)) {
+  if (!nameIsAlphaRegex.test(name)) {
     return sendMessageResponse(res, 400, ERR.NAME_FORMATTING)
   }
 

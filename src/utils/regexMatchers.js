@@ -4,4 +4,4 @@ export const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/
 
 export const dateRegex = /^\d{4}\/\d{2}\/\d{2}$/
 
-export const nameRegex = /^[a-zA-Z]+$/
+export const nameIsAlphaRegex = /^[a-zA-Z]+$/

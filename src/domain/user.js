@@ -143,7 +143,7 @@ export default class User {
     if (isTeacher) {
       return _findByUniqueAsATeacher(id, role)
     }
-    return User._findByUnique('id', id)
+    return _findByUnique('id', id)
   }
 
   static async findManyByFirstName(firstName) {
@@ -328,6 +328,40 @@ async function _findByUniqueAsATeacher(id) {
 
   if (foundUser) {
     return foundUser
+  }
+  return null
+}
+
+async function _findByUnique(key, value) {
+  const foundUser = await dbClient.user.findUnique({
+    where: {
+      [key]: value
+    },
+    select: {
+      id: true,
+      cohortId: true,
+      role: true,
+      email: true,
+      profile: {
+        select: {
+          firstName: true,
+          lastName: true,
+          bio: true,
+          githubUsername: true
+        }
+      }
+    }
+  })
+
+  function flatten(user) {
+    if (!user.profile) {
+      return user
+    }
+    const { profile, ...rest } = user
+    return { ...rest, ...profile }
+  }
+  if (foundUser) {
+    return flatten(foundUser)
   }
   return null
 }
