@@ -2,7 +2,7 @@ import {
   emailRegex,
   passwordRegex,
   dateRegex,
-  nameIsAlphaRegex
+  alphabetRegex
 } from './regexMatchers.js'
 import ERR from './errors.js'
 
@@ -61,7 +61,7 @@ export function validateCanModify(req) {
 }
 
 export function isValidName(name) {
-  if (!nameIsAlphaRegex.test(name)) {
+  if (!alphabetRegex.test(name)) {
     throw Error(ERR.NAME_FORMATTING)
   }
   return true
