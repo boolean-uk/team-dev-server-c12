@@ -11,10 +11,6 @@ export const create = async (req, res) => {
     return sendDataResponse(res, 400, { error: ERR.MISSING_CONTENT })
   }
 
-  if (!id) {
-    return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
-  }
-
   const post = await dbClient.post.create({
     data: {
       content: content,
@@ -22,9 +18,7 @@ export const create = async (req, res) => {
     }
   })
 
-  return res.json({
-    post
-  })
+  return sendDataResponse(res, 201, { post })
 }
 
 export const getAll = async (req, res) => {
