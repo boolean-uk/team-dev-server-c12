@@ -13,9 +13,9 @@ const router = Router()
 
 router.post('/', create)
 router.get('/', validateAuthentication, getAll)
+router.get('/search', validateAuthentication, searchUser)
 router.get('/:id', validateAuthentication, getById)
 router.delete('/:id', validateAuthentication, deleteUserById)
 router.patch('/:id', validateAuthentication, updateById)
-router.get('/search', validateAuthentication, searchUser)
 
 export default router

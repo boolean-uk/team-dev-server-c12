@@ -286,11 +286,7 @@ export default class User {
       },
       include: {
         profile: true,
-        cohort: true,
-        posts: false,
-        deliveryLogs: false,
-        notesCreated: false,
-        notesReceived: false
+        cohort: true
       }
     })
     return searchedUser.map((user) => User.fromDb(user))

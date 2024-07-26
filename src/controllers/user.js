@@ -126,7 +126,7 @@ export const deleteUserById = async (req, res) => {
 
 export const searchUser = async (req, res) => {
   const { name } = req.query
-
+  console.log('searching user...')
   if (!name) {
     return sendMessageResponse(res, 400, ERR.NAME_REQUIRED)
   }
@@ -146,7 +146,7 @@ export const searchUser = async (req, res) => {
         ...user.toJSON().user
       }
     })
-    return sendDataResponse(res, 200, { users: formattedUsers })
+    return sendDataResponse(res, 200, { user: formattedUsers })
   } catch (e) {
     console.error('Error searching for users:', e)
     return sendMessageResponse(res, 500, { e: e.message })
