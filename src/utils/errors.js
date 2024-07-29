@@ -29,5 +29,6 @@ export default {
   NAME_REQUIRED: 'A name must be provided.',
   NAME_FORMATTING: 'Names can only contain letters',
   UNABLE_TO_SEARCH_USER: 'Unable to search for users',
-  NAME_USER_NOT_FOUND: 'user not found by that name'
+  NAME_USER_NOT_FOUND: 'user not found by that name',
+  UNABLE_TO_GET_USER: 'Unable to get the user'
 }

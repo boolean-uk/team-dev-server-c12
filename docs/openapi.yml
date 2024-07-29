@@ -117,7 +117,7 @@ paths:
             type: string
       responses:
         '200':
-          description: successful operation
+          description: Successful operation as a teacher or as a student. If students make the request, only the user is returned.
           content:
             application/json:
               schema:
@@ -126,8 +126,10 @@ paths:
                   status:
                     type: string
                   data:
-                    $ref: '#/components/schemas/User'
-
+                    type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/User'
         '500':
           description: Unable to get user
           content:
@@ -436,25 +438,40 @@ components:
       properties:
         id:
           type: integer
-        email:
-          type: string
-        role:
-          type: string
         cohortId:
           type: integer
+        userId:
+          type: integer  
+        role:
+          type: string
+        email:
+          type: string
         firstName:
           type: string
         lastName:
           type: string
+        userName:
+          type: string
+        mobile:
+          type: integer
         bio:
           type: string
         githubUsername:
           type: string
-        username: 
-          type: string
-        mobile:
-          type: string
-
+        notesReceived:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                content:
+                  type: string
+                teacherId:
+                  type: integer
+                studentId:
+                  type: integer
+                  
     CreateUser:
       type: object
       properties:
