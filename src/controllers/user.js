@@ -4,7 +4,6 @@ import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import { validateCanModify } from '../utils/validationFunctions.js'
 import * as validation from '../utils/validationFunctions.js'
 import ERR from '../utils/errors.js'
-import { alphabetRegex } from '../utils/regexMatchers.js'
 
 export const create = async (req, res) => {
   try {
@@ -50,11 +49,11 @@ export const getById = async (req, res) => {
 }
 export const getAll = async (req, res) => {
   // eslint-disable-next-line camelcase
-  const { first_name: firstName } = req.query
+  const { name } = req.query
   let foundUsers
 
-  if (firstName) {
-    foundUsers = await User.findManyByFirstName(firstName)
+  if (name) {
+    foundUsers = await User.searchUserByName(name)
   } else {
     foundUsers = await User.findAll()
   }
@@ -121,33 +120,5 @@ export const deleteUserById = async (req, res) => {
       error
     )
     return sendDataResponse(res, 500, { error: ERR.DELETE_GENERIC_ERROR })
-  }
-}
-
-export const searchUser = async (req, res) => {
-  const { name } = req.query
-  if (!name) {
-    return sendMessageResponse(res, 400, ERR.NAME_REQUIRED)
-  }
-
-  if (!alphabetRegex.test(name)) {
-    return sendMessageResponse(res, 400, ERR.NAME_FORMATTING)
-  }
-
-  try {
-    const users = await User.searchUserByName(name)
-
-    if (!users || users.length === 0) {
-      return sendMessageResponse(res, 404, ERR.NAME_USER_NOT_FOUND)
-    }
-    const formattedUsers = users.map((user) => {
-      return {
-        ...user.toJSON().user
-      }
-    })
-    return sendDataResponse(res, 200, { user: formattedUsers })
-  } catch (e) {
-    console.error('Error searching for users:', e)
-    return sendMessageResponse(res, 500, { e: e.message })
   }
 }
