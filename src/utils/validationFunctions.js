@@ -1,4 +1,4 @@
-import { emailRegex, passwordRegex } from './regexMatchers.js'
+import { emailRegex, passwordRegex, dateRegex } from './regexMatchers.js'
 import ERR from './errors.js'
 
 export function register(email, password) {
