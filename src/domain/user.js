@@ -236,6 +236,61 @@ export default class User {
     })
     return updatedUser
   }
+
+  static async findManyByName(name) {
+    const splitName = name.split(' ')
+
+    const searchedUser = await dbClient.user.findMany({
+      where: {
+        OR: [
+          {
+            profile: {
+              firstName: {
+                contains: name,
+                mode: 'insensitive'
+              }
+            }
+          },
+          {
+            profile: {
+              lastName: {
+                contains: name,
+                mode: 'insensitive'
+              }
+            }
+          },
+          {
+            AND:
+              splitName.length > 1
+                ? [
+                    {
+                      profile: {
+                        firstName: {
+                          contains: splitName[0],
+                          mode: 'insensitive'
+                        }
+                      }
+                    },
+                    {
+                      profile: {
+                        lastName: {
+                          contains: splitName[1],
+                          mode: 'insensitive'
+                        }
+                      }
+                    }
+                  ]
+                : []
+          }
+        ]
+      },
+      include: {
+        profile: true,
+        cohort: true
+      }
+    })
+    return searchedUser.map((user) => User.fromDb(user))
+  }
 }
 
 async function _findByUniqueAsATeacher(key, value) {
