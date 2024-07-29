@@ -25,5 +25,6 @@ export default {
   INTERNAL_ERROR: 'The server was unable to complete this request',
   MISSING_CONTENT: 'The content is missing from the request body',
   INVALID_NOTE_CONTENT: 'Some text must be provided in order to create a note',
-  UNABLE_TO_CREATE_COHORT: 'Unable to create a new cohort.'
+  UNABLE_TO_CREATE_COHORT: 'Unable to create a new cohort.',
+  UNABLE_TO_GET_USER: 'Unable to get the user'
 }
