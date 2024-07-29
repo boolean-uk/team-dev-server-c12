@@ -10,6 +10,7 @@ import authRouter from './routes/auth.js'
 import cohortRouter from './routes/cohort.js'
 import deliveryLogRouter from './routes/deliveryLog.js'
 import noteRouter from './routes/note.js'
+import commentRouter from './routes/comment.js'
 
 const app = express()
 app.disable('x-powered-by')
@@ -24,6 +25,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 
 app.use('/users', userRouter)
 app.use('/posts', postRouter)
+app.use('/comments', commentRouter)
 app.use('/cohorts', cohortRouter)
 app.use('/logs', deliveryLogRouter)
 app.use('/notes', noteRouter)

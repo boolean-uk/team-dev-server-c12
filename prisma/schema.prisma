@@ -92,12 +92,12 @@ model Note {
 }
 
 model Comment {
-  id        Int       @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   content   String    @db.VarChar(255)
   user      User      @relation(fields: [userId], references: [id])
   post      Post      @relation(fields: [postId], references: [id])
-  postId    Int       @unique
-  userId    Int       @unique
+  postId    Int
+  userId    Int
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 }
