@@ -1,11 +1,7 @@
 import { sendDataResponse } from '../utils/responses.js'
 import ERR from '../utils/errors.js'
-import {
-  createCommentDb,
-  getAllCommentsDb,
-  getAllPostCommentsDb,
-  postFound
-} from '../domain/comment.js'
+import { createCommentDb, getAllCommentsDb } from '../domain/comment.js'
+import { findPostById } from '../domain/post.js'
 
 const getAllComments = async (req, res) => {
   const comments = await getAllCommentsDb()
@@ -23,10 +19,10 @@ const createComment = async (req, res) => {
   const { id } = req.user
   const postId = Number(req.params.id)
 
-  const post = await postFound(postId)
+  const post = await findPostById(postId)
 
   if (!post) {
-    return sendDataResponse(res, 400, { error: ERR.POST_NOT_FOUND })
+    return sendDataResponse(res, 404, { error: ERR.POST_NOT_FOUND })
   }
 
   const comment = await createCommentDb(content, id, postId)
@@ -34,18 +30,4 @@ const createComment = async (req, res) => {
   return sendDataResponse(res, 201, { comment })
 }
 
-const getAllPostComments = async (req, res) => {
-  const postId = Number(req.params.id)
-
-  const post = await postFound(postId)
-
-  if (!post) {
-    return sendDataResponse(res, 400, { error: ERR.POST_NOT_FOUND })
-  }
-
-  const comments = await getAllPostCommentsDb(post)
-
-  return sendDataResponse(res, 200, { comments })
-}
-
-export { getAllComments, createComment, getAllPostComments }
+export { getAllComments, createComment }

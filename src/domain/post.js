@@ -7,17 +7,25 @@ export const getAllPostsDb = async () => {
         select: {
           cohortId: true,
           role: true,
-          profile: true
+          profile: true,
+          comments: true
         }
       }
     }
   })
 }
 
-export const getPostByIdDb = async (id) => {
+export const findPostById = async (postId) => {
   return await dbClient.post.findUnique({
     where: {
-      id: id
+      id: postId
+    },
+    include: {
+      user: {
+        select: {
+          profile: true
+        }
+      }
     }
   })
 }

@@ -93,7 +93,7 @@ model Note {
 
 model Comment {
   id        Int       @id @default(autoincrement())
-  content   String    @db.VarChar(255)
+  content   String
   user      User      @relation(fields: [userId], references: [id])
   post      Post      @relation(fields: [postId], references: [id])
   postId    Int

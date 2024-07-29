@@ -4,14 +4,6 @@ const getAllCommentsDb = async () => {
   return await dbClient.comment.findMany()
 }
 
-const postFound = async (postId) => {
-  return await dbClient.post.findUnique({
-    where: {
-      id: postId
-    }
-  })
-}
-
 const createCommentDb = async (content, id, postId) => {
   return await dbClient.comment.create({
     data: {
@@ -29,19 +21,4 @@ const createCommentDb = async (content, id, postId) => {
   })
 }
 
-const getAllPostCommentsDb = async (post) => {
-  return await dbClient.comment.findMany({
-    where: {
-      postId: post.id
-    },
-    include: {
-      user: {
-        select: {
-          profile: true
-        }
-      }
-    }
-  })
-}
-
-export { getAllCommentsDb, postFound, createCommentDb, getAllPostCommentsDb }
+export { getAllCommentsDb, createCommentDb }

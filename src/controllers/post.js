@@ -1,4 +1,4 @@
-import { getAllPostsDb, getPostByIdDb } from '../domain/post.js'
+import { getAllPostsDb, findPostById } from '../domain/post.js'
 import { sendDataResponse } from '../utils/responses.js'
 import ERR from '../utils/errors.js'
 
@@ -16,12 +16,14 @@ export const getAll = async (req, res) => {
   const getPosts = await getAllPostsDb()
   const posts = getPosts.map((post) => {
     const { user } = post
+
     if (!user.profile) {
       return post
     }
     return {
       id: post.id,
       content: post.content,
+      comments: post.user.comments,
       author: {
         id: user.profile.id,
         cohortId: user.cohortId,
@@ -39,10 +41,10 @@ export const getAll = async (req, res) => {
 export const getPostByID = async (req, res) => {
   const postId = Number(req.params.id)
 
-  const found = await getPostByIdDb(postId)
+  const found = await findPostById(postId)
 
   if (!found) {
-    return sendDataResponse(res, 401, { error: ERR.POST_NOT_FOUND })
+    return sendDataResponse(res, 404, { error: ERR.POST_NOT_FOUND })
   }
   const { id, content } = found
 
