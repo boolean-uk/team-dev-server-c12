@@ -21,6 +21,7 @@ model User {
   password      String
   role          UserRole      @default(STUDENT)
   profile       Profile?
+  comments      Comment[]
   cohortId      Int?
   cohort        Cohort?       @relation(fields: [cohortId], references: [id])
   posts         Post[]
@@ -56,6 +57,7 @@ model Post {
   id        Int       @id @default(autoincrement())
   content   String
   userId    Int
+  comments  Comment[]
   user      User      @relation(fields: [userId], references: [id])
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -85,6 +87,17 @@ model Note {
   teacher   User      @relation("TeacherNotes", fields: [teacherId], references: [id])
   studentId Int
   student   User      @relation("StudentNotes", fields: [studentId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Comment {
+  id        Int       @id @default(autoincrement())
+  content   String
+  user      User      @relation(fields: [userId], references: [id])
+  post      Post      @relation(fields: [postId], references: [id])
+  postId    Int
+  userId    Int
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 }
