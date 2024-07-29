@@ -42,3 +42,13 @@ export const getCohortById = (cohortId) => {
     }
   })
 }
+
+async function getAllCohorts() {
+  return await dbClient.cohort.findMany({
+    orderBy: {
+      id: 'desc'
+    }
+  })
+}
+
+export { getAllCohorts }
