@@ -53,7 +53,7 @@ export const getAll = async (req, res) => {
   let foundUsers
 
   if (name) {
-    foundUsers = await User.searchUserByName(name)
+    foundUsers = await User.findManyByName(name)
   } else {
     foundUsers = await User.findAll()
   }

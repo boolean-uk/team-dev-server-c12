@@ -237,7 +237,7 @@ export default class User {
     return updatedUser
   }
 
-  static async searchUserByName(name) {
+  static async findManyByName(name) {
     const splitName = name.split(' ')
 
     const searchedUser = await dbClient.user.findMany({
