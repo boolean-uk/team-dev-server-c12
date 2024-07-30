@@ -42,7 +42,7 @@ export const getById = async (req, res) => {
         error: ERR.USER_NOT_FOUND
       })
     }
-    return sendDataResponse(res, 201, { user: foundUser })
+    return sendDataResponse(res, 200, { user: foundUser })
   } catch (e) {
     return sendMessageResponse(res, 500, { error: ERR.UNABLE_TO_GET_USER })
   }
