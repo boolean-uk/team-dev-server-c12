@@ -36,6 +36,7 @@ export const getAll = async (req, res) => {
     const foundCohorts = await getAllCohorts()
     return sendDataResponse(res, 200, { cohorts: foundCohorts })
   } catch (e) {
+    console.error(ERR.UNABLE_TO_GET_COHORTS, e)
     return sendMessageResponse(res, 500, { error: ERR.UNABLE_TO_GET_COHORTS })
   }
 }
