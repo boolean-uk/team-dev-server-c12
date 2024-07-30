@@ -234,7 +234,10 @@ export default class User {
         profile: true
       }
     })
-    return updatedUser
+    if (updatedUser) {
+      return flatten(updatedUser)
+    }
+    return null
   }
 
   static async findManyByName(name) {
@@ -358,15 +361,16 @@ async function _findByUnique(key, value) {
     }
   })
 
-  function flatten(user) {
-    if (!user.profile) {
-      return user
-    }
-    const { profile, ...rest } = user
-    return { ...rest, ...profile }
-  }
   if (foundUser) {
     return flatten(foundUser)
   }
   return null
+}
+
+function flatten(user) {
+  if (!user.profile) {
+    return user
+  }
+  const { profile, ...rest } = user
+  return { ...profile, ...rest }
 }
