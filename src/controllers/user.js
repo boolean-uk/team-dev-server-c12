@@ -68,8 +68,10 @@ export const getAll = async (req, res) => {
 }
 
 export const updateById = async (req, res) => {
+  const { email, firstName, lastName, cohortId } = req.body
   try {
-    validation.update(req.body.email, req.body.firstName, req.body.lastName)
+    validation.update(email, firstName, lastName)
+
   } catch (e) {
     return sendDataResponse(res, 400, { error: e.message })
   }
