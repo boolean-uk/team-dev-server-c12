@@ -1,5 +1,4 @@
 import { findPostById, getAllPostsDb } from '../domain/post.js'
-import { getPostReactionsDb, likePostDb, unsetReactionPostDb, getPostUserReactionDb } from "../domain/postReaction.js"
 import dbClient from '../utils/dbClient.js'
 import ERR from '../utils/errors.js'
 import { sendDataResponse } from '../utils/responses.js'
