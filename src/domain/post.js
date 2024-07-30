@@ -29,3 +29,15 @@ export const findPostById = async (postId) => {
     }
   })
 }
+
+export const updatePostDb = async (postId, content, userId) => {
+  return await dbClient.post.update({
+    where: {
+      id: postId,
+      userId: userId
+    },
+    data: {
+      content: content
+    }
+  })
+}
