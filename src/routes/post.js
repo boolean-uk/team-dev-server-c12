@@ -3,9 +3,11 @@ import { create, getAll, getPostByID } from '../controllers/post.js'
 import { validateAuthentication } from '../middleware/auth.js'
 
 const router = Router()
+router.use(validateAuthentication)
 
-router.post('/', validateAuthentication, create)
-router.get('/', validateAuthentication, getAll)
-router.get('/:id', validateAuthentication, getPostByID)
+router.post('/', create)
+router.get('/', getAll)
+router.get('/:id', getPostByID)
+router.get('/like/:id', () => { })
 
 export default router

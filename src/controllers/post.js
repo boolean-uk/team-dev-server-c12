@@ -1,7 +1,8 @@
-import { getAllPostsDb, findPostById } from '../domain/post.js'
-import { sendDataResponse } from '../utils/responses.js'
-import ERR from '../utils/errors.js'
+import { findPostById, getAllPostsDb } from '../domain/post.js'
+import { getPostReactionsDb, likePostDb, unsetReactionPostDb, getPostUserReactionDb } from "../domain/postReaction.js"
 import dbClient from '../utils/dbClient.js'
+import ERR from '../utils/errors.js'
+import { sendDataResponse } from '../utils/responses.js'
 
 export const create = async (req, res) => {
   const { content } = req.body
@@ -59,3 +60,4 @@ export const getPostByID = async (req, res) => {
 
   return sendDataResponse(res, 200, { post: { id, content } })
 }
+
