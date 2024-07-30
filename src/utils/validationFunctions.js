@@ -1,4 +1,9 @@
-import { emailRegex, passwordRegex, dateRegex } from './regexMatchers.js'
+import {
+  emailRegex,
+  passwordRegex,
+  dateRegex,
+  alphabetRegex
+} from './regexMatchers.js'
 import ERR from './errors.js'
 
 export function register(email, password) {
@@ -16,6 +21,19 @@ export function register(email, password) {
 
   if (!password.match(passwordRegex)) {
     throw Error(ERR.PASSWORD_REQUIREMENTS)
+  }
+}
+
+export function update(email, firstName, lastName) {
+  if (!email || !firstName || !lastName) {
+    throw Error(ERR.FILL_THE_REQUIRED_FIELDS)
+  }
+  if (!email.match(emailRegex)) {
+    throw Error(ERR.EMAIL_FORMATING)
+  }
+
+  if (!alphabetRegex.test(firstName) || !alphabetRegex.test(lastName)) {
+    throw Error(ERR.NAME_FORMATTING)
   }
 }
 const parseAndValidateDate = (dateString) => {

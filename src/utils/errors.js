@@ -32,5 +32,8 @@ export default {
   NAME_USER_NOT_FOUND: 'user not found by that name',
   UNABLE_TO_GET_USER: 'Unable to get the user',
   UNABLE_TO_UPDATE_POST: 'Unable to update post',
-  UNABLE_TO_GET_COHORTS: 'Unable to get the cohorts'
+  UNABLE_TO_GET_COHORTS: 'Unable to get the cohorts',
+  FILL_THE_REQUIRED_FIELDS:
+    'The following fields cannot be empty: Email, First Name, and Last Name.',
+  UNABLE_TO_UPDATE_USER: 'Unable to update the user'
 }

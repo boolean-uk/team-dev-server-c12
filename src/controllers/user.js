@@ -68,6 +68,11 @@ export const getAll = async (req, res) => {
 }
 
 export const updateById = async (req, res) => {
+  try {
+    validation.update(req.body.email, req.body.firstName, req.body.lastName)
+  } catch (e) {
+    return sendDataResponse(res, 400, { error: e.message })
+  }
   const paramsId = Number(req.params.id)
   const { id } = req.user
   const foundUser = await User.findById(paramsId)
