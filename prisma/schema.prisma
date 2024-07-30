@@ -22,7 +22,7 @@ model User {
   role          UserRole      @default(STUDENT)
   profile       Profile?
   comments      Comment[]
-  postLikes     PostLike[]
+  postLikes     PostReaction[]
   cohortId      Int?
   cohort        Cohort?       @relation(fields: [cohortId], references: [id])
   posts         Post[]
