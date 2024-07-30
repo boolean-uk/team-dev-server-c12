@@ -109,5 +109,5 @@ model PostLike {
   post      Post      @relation(fields:[postId], references:[id])
   userId    Int
   postId    Int
-  state     Boolean
+  reaction  Int       @db.SmallInt
 }
