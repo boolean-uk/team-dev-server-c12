@@ -8,6 +8,5 @@ router.use(validateAuthentication)
 router.post('/', create)
 router.get('/', getAll)
 router.get('/:id', getPostByID)
-router.get('/like/:id', () => { })
 
 export default router
