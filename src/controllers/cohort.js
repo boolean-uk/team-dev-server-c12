@@ -5,11 +5,26 @@ import ERR from '../utils/errors.js'
 import { dateRegex } from '../utils/regexMatchers.js'
 
 export const create = async (req, res) => {
-  const { startDate, endDate } = req.body
+  const { name, course, startDate, endDate } = req.body
 
-  if (!startDate || !endDate) {
+  const foundCohorts = await getAllCohorts()
+
+  const courseInUse = foundCohorts.some((cohort) =>
+    cohort.course
+      .split(' ')
+      .join('')
+      .toLowerCase()
+      .includes(course.split(' ').join('').toLowerCase())
+  )
+
+  if (courseInUse) {
+    return sendMessageResponse(res, 409, { error: ERR.COURSE_IN_USE })
+  }
+
+  if (!name || !course || !startDate || !endDate) {
     return sendMessageResponse(res, 400, { error: ERR.DATE_REQUIRED })
   }
+
   if (!dateRegex.test(startDate) || !dateRegex.test(endDate)) {
     return sendMessageResponse(res, 400, { error: ERR.DATE_FORMATTING })
   }
@@ -19,7 +34,12 @@ export const create = async (req, res) => {
       startDate,
       endDate
     )
-    const createdCohort = await createCohort(parsedStartDate, parsedEndDate)
+    const createdCohort = createCohort(
+      name,
+      course,
+      parsedStartDate,
+      parsedEndDate
+    )
 
     return sendDataResponse(res, 201, createdCohort)
   } catch (e) {

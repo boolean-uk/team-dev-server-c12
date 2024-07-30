@@ -18,6 +18,7 @@ export default {
     'An error occurred while creating the delivery log.',
   DATE_FORMATTING: 'Invalid date format. Please use yyyy/mm/dd.',
   DATE_REQUIRED: 'Date is required',
+  COURSE_IN_USE: 'This cohort course is already in use',
   EMAIL_IN_USE: 'This email address is already in use',
   UNABLE_TO_CREATE_USER: 'Unable to create new user',
   MISSING_AUTH_HEADER: 'No authorisation header',
