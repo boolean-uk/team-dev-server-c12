@@ -103,11 +103,11 @@ model Comment {
   updatedAt DateTime? @updatedAt
 }
 
-model PostLike {
+model PostReaction {
   id        Int       @id @default(autoincrement())
   user      User      @relation(fields:[userId], references:[id])
   post      Post      @relation(fields:[postId], references:[id])
   userId    Int
   postId    Int
-  reaction  Int       @db.SmallInt
+  reaction  Int       @db.SmallInt @default(0)
 }
