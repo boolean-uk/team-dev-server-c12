@@ -59,4 +59,3 @@ export const getPostByID = async (req, res) => {
 
   return sendDataResponse(res, 200, { post: { id, content } })
 }
-

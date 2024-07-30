@@ -11,7 +11,7 @@ describe('Auth Endpoint', () => {
     })
     it('will allow a user to login', async () => {
       const uniqueEmail = `testuser${Date.now()}@gmail.com`
-      const teacher = await createUser(uniqueEmail, 'password', 'TEACHER')
+      // const teacher = await createUser(uniqueEmail, 'password', 'TEACHER')
       const request = {
         email: uniqueEmail,
         password: 'password'
@@ -24,7 +24,7 @@ describe('Auth Endpoint', () => {
     })
     it('will return status code 400 if the credentials provided do not match', async () => {
       const uniqueEmail = `testuser${Date.now()}@gmail.com`
-      const teacher = await createUser(uniqueEmail, 'password', 'TEACHER')
+      // const teacher = await createUser(uniqueEmail, 'password', 'TEACHER')
       const request = {
         email: uniqueEmail,
         password: 'incorrectpassword'
