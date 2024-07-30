@@ -3,19 +3,16 @@ import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import * as validation from '../utils/validationFunctions.js'
 import ERR from '../utils/errors.js'
 import { dateRegex } from '../utils/regexMatchers.js'
+import dbClient from '../utils/dbClient.js'
 
 export const create = async (req, res) => {
   const { name, course, startDate, endDate } = req.body
 
-  const foundCohorts = await getAllCohorts()
-
-  const courseInUse = foundCohorts.some((cohort) =>
-    cohort.course
-      .split(' ')
-      .join('')
-      .toLowerCase()
-      .includes(course.split(' ').join('').toLowerCase())
-  )
+  const courseInUse = await dbClient.cohort.findUnique({
+    where: {
+      course: course
+    }
+  })
 
   if (courseInUse) {
     return sendMessageResponse(res, 409, { error: ERR.COURSE_IN_USE })
