@@ -62,11 +62,11 @@ export function dateValidation(startDate, endDate) {
 }
 
 export function validateCanModify(req) {
-  const { role, id } = req.user
+  const { role } = req.user
+  const { id } = req.body
   const targetUserId = Number(req.params.id)
   const isUser = id === targetUserId
   const isTeacher = role === 'TEACHER'
-
   if (!isTeacher && !isUser) {
     return false
   }
