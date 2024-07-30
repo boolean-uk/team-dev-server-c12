@@ -1,12 +1,17 @@
 import { Router } from 'express'
-import { create, getAll, getPostByID } from '../controllers/post.js'
+import {
+  create,
+  getAll,
+  getPostByID,
+  updatePostById
+} from '../controllers/post.js'
 import { validateAuthentication } from '../middleware/auth.js'
 
 const router = Router()
-router.use(validateAuthentication)
 
-router.post('/', create)
-router.get('/', getAll)
-router.get('/:id', getPostByID)
+router.post('/', validateAuthentication, create)
+router.get('/', validateAuthentication, getAll)
+router.get('/:id', validateAuthentication, getPostByID)
+router.patch('/:id', validateAuthentication, updatePostById)
 
 export default router

@@ -30,5 +30,7 @@ export default {
   NAME_FORMATTING: 'Names can only contain letters',
   UNABLE_TO_SEARCH_USER: 'Unable to search for users',
   NAME_USER_NOT_FOUND: 'user not found by that name',
-  UNABLE_TO_GET_USER: 'Unable to get the user'
+  UNABLE_TO_GET_USER: 'Unable to get the user',
+  UNABLE_TO_UPDATE_POST: 'Unable to update post',
+  UNABLE_TO_GET_COHORTS: 'Unable to get the cohorts'
 }
