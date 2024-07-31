@@ -5,11 +5,12 @@ import ERR from '../utils/errors.js'
 import { dateRegex } from '../utils/regexMatchers.js'
 
 export const create = async (req, res) => {
-  const { startDate, endDate } = req.body
+  const { cohort, startDate, endDate } = req.body
 
-  if (!startDate || !endDate) {
+  if (!cohort || !startDate || !endDate) {
     return sendMessageResponse(res, 400, { error: ERR.DATE_REQUIRED })
   }
+
   if (!dateRegex.test(startDate) || !dateRegex.test(endDate)) {
     return sendMessageResponse(res, 400, { error: ERR.DATE_FORMATTING })
   }
@@ -19,7 +20,7 @@ export const create = async (req, res) => {
       startDate,
       endDate
     )
-    const createdCohort = await createCohort(parsedStartDate, parsedEndDate)
+    const createdCohort = createCohort(cohort, parsedStartDate, parsedEndDate)
 
     return sendDataResponse(res, 201, createdCohort)
   } catch (e) {
