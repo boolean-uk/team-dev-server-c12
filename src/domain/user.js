@@ -199,7 +199,7 @@ export default class User {
     })
   }
 
-  static async updateUser(id, json) {
+  static async updateUser(id, role, json) {
     const {
       email,
       password,

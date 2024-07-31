@@ -71,7 +71,6 @@ export const updateById = async (req, res) => {
   const { email, firstName, lastName } = req.body
   try {
     validation.update(email, firstName, lastName)
-
     const paramsId = Number(req.params.id)
     const { id } = req.user
     const canPatch = validation.validateCanModify(req)
