@@ -24,18 +24,16 @@ export function register(email, password) {
   }
 }
 
-export function update(email, firstName, lastName) {
-  if (!email || !firstName || !lastName) {
+export function update(firstName, lastName) {
+  if (!firstName || !lastName) {
     throw Error(ERR.FILL_THE_REQUIRED_FIELDS)
-  }
-  if (!email.match(emailRegex)) {
-    throw Error(ERR.EMAIL_FORMATING)
   }
 
   if (!alphabetRegex.test(firstName) || !alphabetRegex.test(lastName)) {
     throw Error(ERR.NAME_FORMATTING)
   }
 }
+
 const parseAndValidateDate = (dateString) => {
   const [year, month, day] = dateString.split('/').map(Number)
   const date = new Date(Date.UTC(year, month - 1, day))
