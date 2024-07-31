@@ -71,15 +71,10 @@ export const updateById = async (req, res) => {
   const { firstName, lastName } = req.body
   try {
     validation.update(firstName, lastName)
-    const paramsId = Number(req.params.id)
     const { id } = req.user
     const canPatch = validation.validateCanModify(req)
     if (!canPatch) {
       return sendDataResponse(res, 403, { error: ERR.NOT_AUTHORISED })
-    }
-    const foundUser = await User.findById(paramsId)
-    if (!foundUser) {
-      return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
     }
     const updatedUser = await User.updateUser(id, req.body)
     delete updatedUser.password
