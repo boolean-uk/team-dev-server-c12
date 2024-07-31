@@ -68,32 +68,21 @@ export const getAll = async (req, res) => {
 }
 
 export const updateById = async (req, res) => {
-  const { email, firstName, lastName, cohortId } = req.body
+  const { email, firstName, lastName } = req.body
   try {
     validation.update(email, firstName, lastName)
 
-    console.log('test1')
     const paramsId = Number(req.params.id)
     const { id } = req.user
     const canPatch = validation.validateCanModify(req)
     if (!canPatch) {
-      
-      console.log('test1')
       return sendDataResponse(res, 403, { error: ERR.NOT_AUTHORISED })
     }
     const foundUser = await User.findById(paramsId)
-
     if (!foundUser) {
-      console.log('test1')
       return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
     }
-    console.log('cohortId', foundUser.cohortId, cohortId)
-    if (cohortId !== foundUser.cohortId) {
-      return sendDataResponse(res, 403, { error: ERR.NOT_AUTHORISED })
-    }
-
     const updatedUser = await User.updateUser(id, req.body)
-
     delete updatedUser.password
 
     return sendDataResponse(res, 200, { user: updatedUser })
