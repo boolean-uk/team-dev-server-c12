@@ -50,7 +50,7 @@ describe('DeliveryLog Endpoint', () => {
       const uniqueEmail = `testuser${Date.now()}@gmail.com`
       const teacher = await createUser(uniqueEmail, 'password', 'TEACHER')
       const token = jwt.sign(teacher.id, process.env.JWT_SECRET)
-      const cohort = await createCohort()
+      // const cohort = await createCohort()
 
       const request = {
         cohort_id: 100,

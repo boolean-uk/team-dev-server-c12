@@ -1,7 +1,7 @@
-import { getAllPostsDb, findPostById, updatePostDb } from '../domain/post.js'
-import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
-import ERR from '../utils/errors.js'
+import { findPostById, getAllPostsDb, updatePostDb } from '../domain/post.js'
 import dbClient from '../utils/dbClient.js'
+import ERR from '../utils/errors.js'
+import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 
 export const create = async (req, res) => {
   const { content } = req.body

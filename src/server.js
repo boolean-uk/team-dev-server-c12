@@ -11,7 +11,11 @@ import cohortRouter from './routes/cohort.js'
 import deliveryLogRouter from './routes/deliveryLog.js'
 import noteRouter from './routes/note.js'
 import commentRouter from './routes/comment.js'
+<<<<<<< HEAD
 import courseRouter from './routes/course.js'
+=======
+import reactionsRouter from './routes/postReactions.js'
+>>>>>>> main
 
 const app = express()
 app.disable('x-powered-by')
@@ -27,6 +31,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 app.use('/users', userRouter)
 app.use('/posts', postRouter)
 app.use('/comments', commentRouter)
+app.use('/react', reactionsRouter)
 app.use('/cohorts', cohortRouter)
 app.use('/courses', courseRouter)
 app.use('/logs', deliveryLogRouter)
