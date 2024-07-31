@@ -44,13 +44,63 @@ model Profile {
 
 model Cohort {
   id           Int           @id @default(autoincrement())
-  name         String?
+  cohort       String?
+  course       Course?       @relation(fields: [courseId], references: [id])
+  courseId     Int?          @unique
   users        User[]
   deliveryLogs DeliveryLog[]
   startDate    DateTime?     @db.Date
   endDate      DateTime?     @db.Date
   createdAt    DateTime      @default(now())
   updatedAt    DateTime?     @updatedAt
+}
+
+model Course {
+  id        Int       @id @default(autoincrement())
+  course    String
+  modules   Module[]
+  cohorts   Cohort[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Module {
+  id        Int       @id @default(autoincrement())
+  module    String
+  units     Unit[]
+  courses   Course[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Unit {
+  id        Int        @id @default(autoincrement())
+  unit      String
+  module    Module     @relation(fields: [moduleId], references: [id])
+  moduleId  Int        @unique
+  exercises Exercise[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?  @updatedAt
+}
+
+model Exercise {
+  id          Int       @id @default(autoincrement())
+  exercise    String
+  description String
+  githubRepo  String
+  tags        Tag[]
+  unit        Unit      @relation(fields: [unitId], references: [id])
+  unitId      Int       @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+}
+
+model Tag {
+  id        Int        @id @default(autoincrement())
+  tag       String
+  exercises Exercise[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?  @updatedAt
 }
 
 model Post {
