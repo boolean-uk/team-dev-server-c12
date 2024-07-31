@@ -47,14 +47,25 @@ export const getById = async (req, res) => {
     return sendMessageResponse(res, 500, { error: ERR.UNABLE_TO_GET_USER })
   }
 }
+
 export const getAll = async (req, res) => {
   // eslint-disable-next-line camelcase
-  const { name } = req.query
+  const { name, role } = req.query
   let foundUsers
+
+  if (role && name) {
+    return sendMessageResponse(res, 400, { error: ERR.BAD_REQUEST })
+  }
 
   if (name) {
     foundUsers = await User.findManyByName(name)
-  } else {
+  }
+
+  if (role) {
+    foundUsers = await User._findMany('role', role.toUpperCase())
+  }
+
+  if (!role && !name) {
     foundUsers = await User.findAll()
   }
 
