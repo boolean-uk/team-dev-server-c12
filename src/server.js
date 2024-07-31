@@ -11,11 +11,8 @@ import cohortRouter from './routes/cohort.js'
 import deliveryLogRouter from './routes/deliveryLog.js'
 import noteRouter from './routes/note.js'
 import commentRouter from './routes/comment.js'
-<<<<<<< HEAD
 import courseRouter from './routes/course.js'
-=======
 import reactionsRouter from './routes/postReactions.js'
->>>>>>> main
 
 const app = express()
 app.disable('x-powered-by')
