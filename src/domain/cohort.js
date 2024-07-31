@@ -4,10 +4,10 @@ import dbClient from '../utils/dbClient.js'
  * Create a new Cohort in the database
  * @returns {Cohort}
  */
-export async function createCohort(cohort, startDate, endDate) {
+export async function createCohort(name, startDate, endDate) {
   const createdCohort = await dbClient.cohort.create({
     data: {
-      cohort,
+      name,
       startDate,
       endDate
     },
@@ -29,6 +29,7 @@ export class Cohort {
     return {
       cohort: {
         id: this.id,
+        name: this.name,
         startDate: this.startDate,
         endDate: this.endDate
       }
