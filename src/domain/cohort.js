@@ -36,7 +36,7 @@ export class Cohort {
 }
 
 export const getCohortById = async (cohortId) => {
-  const foundCohort = await dbClient.cohort.findUniqueOrThrow({
+  const foundCohort = await dbClient.cohort.findUnique({
     where: {
       id: cohortId
     },

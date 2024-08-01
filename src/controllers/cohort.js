@@ -46,6 +46,13 @@ export const getById = async (req, res) => {
 
   try {
     const foundCohort = await getCohortById(cohortId)
+
+    if (!foundCohort) {
+      return sendDataResponse(res, 404, {
+        error: ERR.COHORT_NOT_FOUND
+      })
+    }
+
     return sendDataResponse(res, 200, { cohort: foundCohort })
   } catch (e) {
     console.error(ERR.UNABLE_TO_GET_COHORT, e)
