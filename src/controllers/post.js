@@ -22,29 +22,39 @@ export const create = async (req, res) => {
 }
 
 export const getAll = async (req, res) => {
-  const getPosts = await getAllPostsDb()
-  const posts = getPosts.map((post) => {
-    const { user } = post
+  const commentsLimit = parseInt(req.query.comments) || undefined
 
-    if (!user.profile) {
-      return post
-    }
-    return {
+  try {
+    const getPosts = await getAllPostsDb()
+
+    const posts = getPosts.map((post) => ({
       id: post.id,
       content: post.content,
-      comments: post.user.comments,
+      createdAt: post.createdAt,
+      updatedAt: post.updatedAt,
+      comments: post.comments.slice(0, commentsLimit).map((comment) => ({
+        id: comment.id,
+        content: comment.content,
+        createdAt: comment.createdAt,
+        author: {
+          id: comment.user.profile?.id,
+          firstName: comment.user.profile?.firstName,
+          lastName: comment.user.profile?.lastName,
+          bio: comment.user.profile?.bio
+        }
+      })),
       author: {
-        id: user.profile.id,
-        cohortId: user.cohortId,
-        role: user.role,
-        firstName: user.profile.firstName,
-        lastName: user.profile.lastName,
-        bio: user.profile.bio,
-        githubUrl: user.profile.githubUrl
+        id: post.user.profile?.id,
+        firstName: post.user.profile?.firstName,
+        lastName: post.user.profile?.lastName,
+        bio: post.user.profile?.bio
       }
-    }
-  })
-  return sendDataResponse(res, 200, { posts: posts })
+    }))
+
+    return sendDataResponse(res, 200, { posts })
+  } catch (error) {
+    return sendMessageResponse(res, 500, { error: ERR.INTERNAL_ERROR })
+  }
 }
 
 export const getPostByID = async (req, res) => {
