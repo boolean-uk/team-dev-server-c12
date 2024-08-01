@@ -1,4 +1,4 @@
-import { createCohort, getAllCohorts } from '../domain/cohort.js'
+import { createCohort, getAllCohorts, getCohortById } from '../domain/cohort.js'
 import { sendDataResponse, sendMessageResponse } from '../utils/responses.js'
 import * as validation from '../utils/validationFunctions.js'
 import ERR from '../utils/errors.js'
@@ -38,5 +38,17 @@ export const getAll = async (req, res) => {
   } catch (e) {
     console.error(ERR.UNABLE_TO_GET_COHORTS, e)
     return sendMessageResponse(res, 500, { error: ERR.UNABLE_TO_GET_COHORTS })
+  }
+}
+
+export const getById = async (req, res) => {
+  const cohortId = Number(req.params.id)
+
+  try {
+    const foundCohort = await getCohortById(cohortId)
+    return sendDataResponse(res, 200, { cohort: foundCohort })
+  } catch (e) {
+    console.error(ERR.UNABLE_TO_GET_COHORT, e)
+    return sendMessageResponse(res, 500, { error: ERR.UNABLE_TO_GET_COHORT })
   }
 }

@@ -35,12 +35,45 @@ export class Cohort {
   }
 }
 
-export const getCohortById = (cohortId) => {
-  return dbClient.cohort.findFirst({
+export const getCohortById = async (cohortId) => {
+  const foundCohort = await dbClient.cohort.findUniqueOrThrow({
     where: {
       id: cohortId
+    },
+    include: {
+      users: {
+        select: {
+          id: true,
+          cohortId: true,
+          role: true,
+          email: true,
+          profile: {
+            select: {
+              firstName: true,
+              lastName: true,
+              bio: true,
+              githubUsername: true
+            }
+          }
+        }
+      }
     }
   })
+
+  if (foundCohort) {
+    return { ...foundCohort, users: flatten(foundCohort) }
+  }
+
+  return foundCohort
+}
+
+function flatten(foundCohort) {
+  const formattedCohort = foundCohort.users.map((user) => {
+    const { profile, ...rest } = user
+    return { ...profile, ...rest }
+  })
+
+  return formattedCohort
 }
 
 async function getAllCohorts() {
