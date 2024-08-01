@@ -79,22 +79,31 @@ export const getAll = async (req, res) => {
 }
 
 export const updateById = async (req, res) => {
-  const paramsId = Number(req.params.id)
+  const { firstName, lastName, email } = req.body
   const { id } = req.user
-  const foundUser = await User.findById(paramsId)
+  const targetUserId = Number(req.params.id)
 
-  if (!foundUser) {
-    return sendDataResponse(res, 404, { error: ERR.USER_NOT_FOUND })
+  try {
+    validation.validateNames(firstName, lastName)
+    if (email) {
+      validation.validateEmail(email)
+    }
+  } catch (e) {
+    return sendDataResponse(res, 400, { error: e.message })
   }
-  const canPatch = validation.validateCanModify(req)
+
+  const canPatch = validation.validateCanModify(targetUserId, req.user)
   if (!canPatch) {
     return sendDataResponse(res, 403, { error: ERR.NOT_AUTHORISED })
   }
-  const updatedUser = await User.updateUser(id, req.body)
+  try {
+    const updatedUser = await User.updateUser(id, req.body)
 
-  delete updatedUser.password
-
-  return sendDataResponse(res, 200, { user: updatedUser })
+    return sendDataResponse(res, 200, { user: updatedUser })
+  } catch (e) {
+    console.error(ERR.UNABLE_TO_UPDATE_USER, e)
+    return sendMessageResponse(res, 500, ERR.UNABLE_TO_CREATE_USER)
+  }
 }
 
 export const deleteUserById = async (req, res) => {
