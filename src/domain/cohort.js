@@ -64,7 +64,7 @@ export const getCohortById = async (cohortId) => {
     return { ...foundCohort, users: flatten(foundCohort) }
   }
 
-  return foundCohort
+  return null
 }
 
 function flatten(foundCohort) {
