@@ -86,7 +86,6 @@ export const updateById = async (req, res) => {
   }
   try {
     const updatedUser = await User.updateUser(id, req.body)
-    delete updatedUser.password
 
     return sendDataResponse(res, 200, { user: updatedUser })
   } catch (e) {

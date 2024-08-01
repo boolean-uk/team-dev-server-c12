@@ -235,6 +235,7 @@ export default class User {
       }
     })
     if (updatedUser) {
+      delete updatedUser.password
       return flatten(updatedUser)
     }
     return null
