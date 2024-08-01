@@ -68,13 +68,12 @@ export const getAll = async (req, res) => {
 }
 
 export const updateById = async (req, res) => {
-  const { firstName, lastName, password, email } = req.body
+  const { firstName, lastName, email } = req.body
   const { id } = req.user
   const targetUserId = Number(req.params.id)
 
   try {
     validation.validateNames(firstName, lastName)
-    validation.validatePassword(password)
     if (email) {
       validation.validateEmail(email)
     }
