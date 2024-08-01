@@ -3,14 +3,26 @@ import dbClient from '../utils/dbClient.js'
 export const getAllPostsDb = async () => {
   return await dbClient.post.findMany({
     include: {
+      comments: {
+        orderBy: {
+          createdAt: 'desc'
+        },
+        include: {
+          user: {
+            include: {
+              profile: true
+            }
+          }
+        }
+      },
       user: {
-        select: {
-          cohortId: true,
-          role: true,
-          profile: true,
-          comments: true
+        include: {
+          profile: true
         }
       }
+    },
+    orderBy: {
+      createdAt: 'desc'
     }
   })
 }
