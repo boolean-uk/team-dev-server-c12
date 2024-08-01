@@ -67,9 +67,8 @@ export function dateValidation(startDate, endDate) {
   return { parsedStartDate, parsedEndDate }
 }
 
-export function validateCanModify(req) {
-  const { role, id } = req.user
-  const targetUserId = Number(req.params.id)
+export function validateCanModify(targetUserId, user) {
+  const { id, role } = user
   const isUser = id === targetUserId
   const isTeacher = role === 'TEACHER'
 

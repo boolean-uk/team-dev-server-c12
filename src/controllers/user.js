@@ -70,6 +70,8 @@ export const getAll = async (req, res) => {
 export const updateById = async (req, res) => {
   const { firstName, lastName, password, email } = req.body
   const { id } = req.user
+  const targetUserId = Number(req.params.id)
+
   try {
     validation.validateNames(firstName, lastName)
     validation.validatePassword(password)
@@ -80,7 +82,7 @@ export const updateById = async (req, res) => {
     return sendDataResponse(res, 400, { error: e.message })
   }
 
-  const canPatch = validation.validateCanModify(req)
+  const canPatch = validation.validateCanModify(targetUserId, req.user)
   if (!canPatch) {
     return sendDataResponse(res, 403, { error: ERR.NOT_AUTHORISED })
   }
