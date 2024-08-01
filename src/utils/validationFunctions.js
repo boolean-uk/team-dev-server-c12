@@ -28,7 +28,6 @@ export function validateNames(firstName, lastName) {
   if (!firstName || !lastName) {
     throw Error(ERR.FILL_THE_REQUIRED_FIELDS)
   }
-
   if (!alphabetRegex.test(firstName) || !alphabetRegex.test(lastName)) {
     throw Error(ERR.NAME_FORMATTING)
   }
