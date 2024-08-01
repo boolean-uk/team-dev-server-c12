@@ -24,7 +24,7 @@ export function register(email, password) {
   }
 }
 
-export function update(firstName, lastName) {
+export function validateNames(firstName, lastName) {
   if (!firstName || !lastName) {
     throw Error(ERR.FILL_THE_REQUIRED_FIELDS)
   }
@@ -34,6 +34,14 @@ export function update(firstName, lastName) {
   }
 }
 
+export function validateEmail(email) {
+  if (!emailRegex.test(email)) throw new Error(ERR.EMAIL_FORMATING)
+}
+
+export function validatePassword(password) {
+  if (!password) throw new Error(ERR.PASSWORD_REQUIRED)
+  if (!password.match(passwordRegex)) throw new Error(ERR.PASSWORD_REQUIREMENTS)
+}
 const parseAndValidateDate = (dateString) => {
   const [year, month, day] = dateString.split('/').map(Number)
   const date = new Date(Date.UTC(year, month - 1, day))

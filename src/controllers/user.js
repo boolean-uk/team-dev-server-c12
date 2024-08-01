@@ -68,20 +68,30 @@ export const getAll = async (req, res) => {
 }
 
 export const updateById = async (req, res) => {
-  const { firstName, lastName } = req.body
+  const { firstName, lastName, password, email } = req.body
+  const { id } = req.user
   try {
-    validation.update(firstName, lastName)
-    const { id } = req.user
-    const canPatch = validation.validateCanModify(req)
-    if (!canPatch) {
-      return sendDataResponse(res, 403, { error: ERR.NOT_AUTHORISED })
+    validation.validateNames(firstName, lastName)
+    validation.validatePassword(password)
+    if (email) {
+      validation.validateEmail(email)
     }
+  } catch (e) {
+    return sendDataResponse(res, 400, { error: e.message })
+  }
+
+  const canPatch = validation.validateCanModify(req)
+  if (!canPatch) {
+    return sendDataResponse(res, 403, { error: ERR.NOT_AUTHORISED })
+  }
+  try {
     const updatedUser = await User.updateUser(id, req.body)
     delete updatedUser.password
 
     return sendDataResponse(res, 200, { user: updatedUser })
   } catch (e) {
-    return sendDataResponse(res, 400, { error: e.message })
+    console.error(ERR.UNABLE_TO_UPDATE_USER, e)
+    return sendMessageResponse(res, 500, ERR.UNABLE_TO_CREATE_USER)
   }
 }
 
