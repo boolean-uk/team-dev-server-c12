@@ -25,9 +25,9 @@ export const getAll = async (req, res) => {
   const commentsLimit = parseInt(req.query.comments) || undefined
 
   try {
-    const getPosts = await getAllPostsDb()
+    const postsData = await getAllPostsDb()
 
-    const posts = getPosts.map((post) => ({
+    const posts = postsData.map((post) => ({
       id: post.id,
       content: post.content,
       createdAt: post.createdAt,
