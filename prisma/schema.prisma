@@ -22,6 +22,7 @@ model User {
   role          UserRole      @default(STUDENT)
   profile       Profile?
   comments      Comment[]
+  postLikes     PostReaction[]
   cohortId      Int?
   cohort        Cohort?       @relation(fields: [cohortId], references: [id])
   posts         Post[]
@@ -54,13 +55,14 @@ model Cohort {
 }
 
 model Post {
-  id        Int       @id @default(autoincrement())
-  content   String
-  userId    Int
-  comments  Comment[]
-  user      User      @relation(fields: [userId], references: [id])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  id            Int             @id @default(autoincrement())
+  content       String
+  userId        Int
+  comments      Comment[]
+  postLikes     PostReaction[]
+  user          User            @relation(fields: [userId], references: [id])
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime?       @updatedAt
 }
 
 model DeliveryLog {
@@ -100,4 +102,13 @@ model Comment {
   userId    Int
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+}
+
+model PostReaction {
+  id        Int       @id @default(autoincrement())
+  user      User      @relation(fields:[userId], references:[id])
+  post      Post      @relation(fields:[postId], references:[id])
+  userId    Int
+  postId    Int
+  reaction  Int       @db.SmallInt @default(0)
 }
