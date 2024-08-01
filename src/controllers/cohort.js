@@ -9,7 +9,7 @@ export const create = async (req, res) => {
   try {
     validation.validateCreateCohort(name, users, startDate, endDate)
   } catch (e) {
-    return sendDataResponse(res, 400, { error: e.message })
+    return sendMessageResponse(res, 400, { error: e.message })
   }
 
   try {
