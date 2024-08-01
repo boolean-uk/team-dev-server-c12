@@ -16,19 +16,20 @@ enum UserRole {
 }
 
 model User {
-  id            Int           @id @default(autoincrement())
-  email         String        @unique
-  password      String
-  role          UserRole      @default(STUDENT)
-  profile       Profile?
-  comments      Comment[]
+  id              Int               @id @default(autoincrement())
+  email           String            @unique
+  password        String
+  role            UserRole          @default(STUDENT)
+  profile         Profile?
+  comments        Comment[]
   postLikes     PostReaction[]
-  cohortId      Int?
-  cohort        Cohort?       @relation(fields: [cohortId], references: [id])
-  posts         Post[]
-  deliveryLogs  DeliveryLog[]
-  notesCreated  Note[]        @relation("TeacherNotes")
-  notesReceived Note[]        @relation("StudentNotes")
+  cohortId        Int?
+  cohort          Cohort?           @relation(fields: [cohortId], references: [id])
+  posts           Post[]
+  deliveryLogs    DeliveryLog[]
+  notesCreated    Note[]            @relation("TeacherNotes")
+  notesReceived   Note[]            @relation("StudentNotes")
+  studentExercise StudentExercise[]
 }
 
 model Profile {
@@ -46,12 +47,71 @@ model Profile {
 model Cohort {
   id           Int           @id @default(autoincrement())
   name         String?
+  courses      Course[]
   users        User[]
   deliveryLogs DeliveryLog[]
   startDate    DateTime?     @db.Date
   endDate      DateTime?     @db.Date
   createdAt    DateTime      @default(now())
   updatedAt    DateTime?     @updatedAt
+}
+
+model Course {
+  id        Int       @id @default(autoincrement())
+  name      String
+  modules   Module[]
+  cohorts   Cohort[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Module {
+  id        Int       @id @default(autoincrement())
+  name      String
+  units     Unit[]
+  courses   Course[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Unit {
+  id        Int        @id @default(autoincrement())
+  name      String
+  module    Module     @relation(fields: [moduleId], references: [id])
+  moduleId  Int        @unique
+  exercises Exercise[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?  @updatedAt
+}
+
+model Exercise {
+  id              Int               @id @default(autoincrement())
+  title           String
+  description     String
+  githubRepo      String
+  tags            Tag[]
+  unit            Unit              @relation(fields: [unitId], references: [id])
+  unitId          Int               @unique
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime?         @updatedAt
+  studentExercise StudentExercise[]
+}
+
+model StudentExercise {
+  id         Int      @id @default(autoincrement())
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  exerciseId Int
+  student    User     @relation(fields: [studentId], references: [id])
+  studentId  Int
+  isComplete Boolean  @default(false)
+}
+
+model Tag {
+  id        Int        @id @default(autoincrement())
+  name      String
+  exercises Exercise[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?  @updatedAt
 }
 
 model Post {

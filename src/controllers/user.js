@@ -18,10 +18,10 @@ export const create = async (req, res) => {
     const existingUser = await User.findByEmail(userToCreate.email)
 
     if (existingUser) {
-      return sendDataResponse(res, 400, { error: ERR.EMAIL_IN_USE })
+      return sendMessageResponse(res, 400, { error: ERR.EMAIL_IN_USE })
     }
 
-    const createdUser = await userToCreate.save()
+    const createdUser = userToCreate.save()
 
     return sendDataResponse(res, 201, createdUser)
   } catch (error) {
