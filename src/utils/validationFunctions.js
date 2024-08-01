@@ -1,4 +1,9 @@
-import { emailRegex, passwordRegex, dateRegex } from './regexMatchers.js'
+import {
+  emailRegex,
+  passwordRegex,
+  dateRegex,
+  alphabetRegex
+} from './regexMatchers.js'
 import ERR from './errors.js'
 
 export function register(email, password) {
@@ -18,6 +23,20 @@ export function register(email, password) {
     throw Error(ERR.PASSWORD_REQUIREMENTS)
   }
 }
+
+export function validateNames(firstName, lastName) {
+  if (!firstName || !lastName) {
+    throw Error(ERR.FILL_THE_REQUIRED_FIELDS)
+  }
+  if (!alphabetRegex.test(firstName) || !alphabetRegex.test(lastName)) {
+    throw Error(ERR.NAME_FORMATTING)
+  }
+}
+
+export function validateEmail(email) {
+  if (!emailRegex.test(email)) throw new Error(ERR.EMAIL_FORMATING)
+}
+
 const parseAndValidateDate = (dateString) => {
   const [year, month, day] = dateString.split('/').map(Number)
   const date = new Date(Date.UTC(year, month - 1, day))
@@ -43,9 +62,8 @@ export function dateValidation(startDate, endDate) {
   return { parsedStartDate, parsedEndDate }
 }
 
-export function validateCanModify(req) {
-  const { role, id } = req.user
-  const targetUserId = Number(req.params.id)
+export function validateCanModify(targetUserId, user) {
+  const { id, role } = user
   const isUser = id === targetUserId
   const isTeacher = role === 'TEACHER'
 
