@@ -33,5 +33,7 @@ export default {
   UNABLE_TO_GET_USER: 'Unable to get the user',
   UNABLE_TO_UPDATE_POST: 'Unable to update post',
   UNABLE_TO_GET_COHORTS: 'Unable to get the cohorts',
-  UNABLE_TO_GET_COHORT: 'Unable to get the cohort'
+  UNABLE_TO_GET_COHORT: 'Unable to get the cohort',
+  COHORT_NAME_REQUIRED: 'Cohort name is required',
+  COHORT_USERS_REQUIRED: 'Cohort users is required'
 }

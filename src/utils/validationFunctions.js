@@ -54,3 +54,21 @@ export function validateCanModify(req) {
   }
   return true
 }
+
+export function validateCreateCohort(name, users, startDate, endDate) {
+  if (!name) {
+    throw Error(ERR.COHORT_NAME_REQUIRED)
+  }
+
+  if (!users) {
+    throw Error(ERR.COHORT_USERS_REQUIRED)
+  }
+
+  if (!startDate || !endDate) {
+    throw Error(ERR.DATE_REQUIRED)
+  }
+
+  if (!dateRegex.test(startDate) || !dateRegex.test(endDate)) {
+    throw Error(ERR.DATE_FORMATTING)
+  }
+}
